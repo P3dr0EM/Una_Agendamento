@@ -1,3 +1,5 @@
+// ignore_for_file: unused_local_variable
+
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/simple/get_view.dart';
 import 'package:una_agendamento/login/login_controller.dart';
@@ -11,6 +13,8 @@ class LoginButton extends GetView<LoginController> {
                 child: ElevatedButton(
                   onPressed: (){
                     controller.logar();
+                    bool email = controller.validateEmail();
+                    bool senha = controller.validatePassword();
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color.fromARGB(255, 206, 1, 38),

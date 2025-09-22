@@ -7,7 +7,6 @@ import 'package:una_agendamento/login/widgets/forget_password.dart';
 import 'package:una_agendamento/login/widgets/login_button.dart';
 import 'package:una_agendamento/login/widgets/password_field.dart';
 
-
 class LoginView extends GetView<LoginController> {
   const LoginView({super.key});
 
