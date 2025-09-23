@@ -6,7 +6,7 @@ import 'package:una_agendamento/login/login_bidings.dart';
 void main() {
   runApp(const MyApp());
 }
-
+//Construção do Main
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       initialBinding: LoginBidings(),
       debugShowCheckedModeBanner: false,
-      home: const LoginView(),
+      home: const LoginView(), //chamada da View principal da tela de Login
     );
   }
 }

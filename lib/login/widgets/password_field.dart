@@ -11,12 +11,11 @@ class PasswordField extends GetView<LoginController> {
     return Padding(
                 padding: const EdgeInsetsGeometry.only(left: 8, right: 8),
                 child: Obx(()=> TextFormField(
-                  controller: controller.senhaInput,
+                  controller: controller.senhaInput, //chama o controlador de texto
                   obscureText: true,
                   keyboardType: TextInputType.text,
                   decoration: InputDecoration(label: const Text("SENHA"),
-                  errorText: controller.errorPassword.value),
-                  
+                  errorText: controller.errorPassword.value), //chama o controlador de erro   
                 ),)
               );
   }

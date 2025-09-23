@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/simple/get_view.dart';
 import 'package:una_agendamento/login/login_controller.dart';
 
+//Contrução de Widget do Botão de Login
 class LoginButton extends GetView<LoginController> {
   const LoginButton({super.key});
 
@@ -12,7 +13,7 @@ class LoginButton extends GetView<LoginController> {
     return Center(
                 child: ElevatedButton(
                   onPressed: (){
-                    controller.logar();
+                    controller.logar(); //chama a função de logar da classe LoginController
                     bool email = controller.validateEmail();
                     bool senha = controller.validatePassword();
                   },
