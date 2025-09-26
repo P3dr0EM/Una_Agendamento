@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:una_agendamento/home/home.view.dart';
-import 'package:una_agendamento/login/widgets/email_field.dart';
+import 'package:una_agendamento/app/modules/login/widgets/email_field.dart';
+import 'package:una_agendamento/app/routes/app_routes.dart';
 
 class LoginController extends GetxController{
     TextEditingController emailInput = TextEditingController(); //criação da variável de controle do campo de email
@@ -45,7 +45,7 @@ class LoginController extends GetxController{
     }
 
     void login(){
-      Get.to(HomeView());
+      Get.offAllNamed(Routes.HOME);
     }
 
     //criação da função de verificação de campo de email vazio

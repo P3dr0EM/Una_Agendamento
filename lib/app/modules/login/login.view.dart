@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:una_agendamento/login/login_controller.dart';
-import 'package:una_agendamento/login/widgets/checkbox_field.dart';
-import 'package:una_agendamento/login/widgets/email_field.dart';
-import 'package:una_agendamento/login/widgets/forget_password.dart';
-import 'package:una_agendamento/login/widgets/login_button.dart';
-import 'package:una_agendamento/login/widgets/password_field.dart';
+import 'package:una_agendamento/app/modules/login/login_controller.dart';
+import 'package:una_agendamento/app/modules/login/widgets/checkbox_field.dart';
+import 'package:una_agendamento/app/modules/login/widgets/email_field.dart';
+import 'package:una_agendamento/app/modules/login/widgets/forget_password.dart';
+import 'package:una_agendamento/app/modules/login/widgets/login_button.dart';
+import 'package:una_agendamento/app/modules/login/widgets/password_field.dart';
 
 //construção da tela de Login Inicial
 class LoginView extends GetView<LoginController> {

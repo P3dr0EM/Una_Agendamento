@@ -2,7 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/simple/get_view.dart';
-import 'package:una_agendamento/login/login_controller.dart';
+import 'package:una_agendamento/app/modules/login/login_controller.dart';
 
 //Contrução de Widget do Botão de Login
 class LoginButton extends GetView<LoginController> {

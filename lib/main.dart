@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
-import 'package:una_agendamento/login/login.view.dart';
-import 'package:una_agendamento/login/login_bidings.dart';
+import 'package:una_agendamento/app/routes/app_pages.dart';
 
 void main() {
   runApp(const MyApp());
 }
+
 //Construção do Main
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -13,9 +13,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      initialBinding: LoginBidings(),
       debugShowCheckedModeBanner: false,
-      home: const LoginView(), //chamada da View principal da tela de Login
+      initialRoute: AppPages.INITIAL,
+      getPages: AppPages.routes,
     );
   }
 }

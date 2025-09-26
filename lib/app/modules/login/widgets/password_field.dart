@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:get/get_state_manager/src/simple/get_view.dart';
-import 'package:una_agendamento/login/login_controller.dart';
+import 'package:una_agendamento/app/modules/login/login_controller.dart';
 
 class PasswordField extends GetView<LoginController> {
   const PasswordField({super.key});
