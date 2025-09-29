@@ -43,13 +43,7 @@ class SearchAppBar extends StatelessWidget implements PreferredSizeWidget {
               color: Colors.white
             ),
             ),
-          leading: IconButton(
-            onPressed: (){
-              // ignore: avoid_print
-              print('Botão de menu pressionado');
-            },
-            icon: Icon(Icons.menu, color: Colors.white,)
-          ),
+
           actions: [
             IconButton(
               icon: const Icon(Icons.search, color: Colors.white,),
@@ -57,6 +51,7 @@ class SearchAppBar extends StatelessWidget implements PreferredSizeWidget {
             ),
           ],
           backgroundColor: Color.fromARGB(255, 206, 1, 38),
+          iconTheme: const IconThemeData(color: Colors.white),
         );
       }
     });
