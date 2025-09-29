@@ -14,6 +14,9 @@ class HomeController extends GetxController {
 
   final searchResults = <String>[].obs;
 
+  //Variável para rastrear o índice do item selecionado no rodapé
+  final tabIndex = 0.obs;
+
   @override
   void onInit() {
     super.onInit();
@@ -43,6 +46,14 @@ class HomeController extends GetxController {
           .toList();
       searchResults.assignAll(filtered);
     }
+  }
+
+  /// Altera o índice da aba selecionada no rodapé.
+  void changeTabIndex(int index) {
+    tabIndex.value = index;
+    // Aqui você pode adicionar lógica para mudar o conteúdo da página
+    // com base no índice, se necessário.
+    // Ex: if (index == 1) { carregarFavoritos(); }
   }
 
   @override
