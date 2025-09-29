@@ -1,79 +1,85 @@
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:una_agendamento/app/modules/login/widgets/email_field.dart';
 import 'package:una_agendamento/app/routes/app_routes.dart';
+import 'package:una_agendamento/conexao_bd/conexao.bd.dart';
 
-class LoginController extends GetxController{
-    TextEditingController emailInput = TextEditingController(); //criação da variável de controle do campo de email
-    TextEditingController senhaInput = TextEditingController(); //criação da variável de controle do campo de senha
-    final RxnString errorEmail = RxnString(null); //criação da variável observável de erro do EmailField
-    final RxnString errorPassword = RxnString(null);//criação da variável observável de erro do PasswordField
+class LoginController extends GetxController {
+  TextEditingController emailInput =
+      TextEditingController(); // variável de controle do campo de email
+  TextEditingController senhaInput =
+      TextEditingController(); // variável de controle do campo de senha
+  final RxnString errorEmail = RxnString(
+    null,
+  ); // variável observável de erro do EmailField
+  final RxnString errorPassword = RxnString(
+    null,
+  ); // variável observável de erro do PasswordField
 
-    //Debug de validação de email e senha. Deverá ser feito com integração do Back-End com o Banco de Dados
-    static const email = "admin@admin.com";
-    static const senha = "admin";
+  // Login fixo de admin
+  static const adminEmail = "admin@admin.com";
+  static const adminSenha = "admin";
 
-    void logar(){
-      switch (emailInput.text) {
-        case email:
-          checkPassword();
-          break;
-        case '':
-          printError('Insira um email.');
-          EmailField();
-          break;
-        default:
-          printError('Email Inválido!');
-      }
+  // Função de login
+  Future<void> logar() async {
+    // Verificar campos vazios primeiro
+    if (!validateEmail() || !validatePassword()) return;
+
+    final email = emailInput.text;
+    final senha = senhaInput.text;
+
+    bool valido = false;
+
+    // Primeiro verifica login admin fixo
+    if (email == adminEmail && senha == adminSenha) {
+      valido = true;
+    } else {
+      // Depois verifica no banco de dados
+      valido = await validarLogin(email, senha);
     }
 
-    void checkPassword(){
-      switch (senhaInput.text) {
-        case senha:
-          login();
-          break;
-        case '':
-          printError('Insira sua senha!');
-        default:
-          printError('Senha Incorreta!');
-      }
+    if (valido) {
+      login(); // vai pra home
+    } else {
+      printError("E-mail ou senha inválidos!");
+      errorEmail.value = "E-mail ou senha inválidos!";
+      errorPassword.value = "E-mail ou senha inválidos!";
     }
+  }
 
-    void printError(String error){
-      // ignore: avoid_print
-      print(error);
-    }
+  void printError(String error) {
+    print(error);
+  }
 
-    void login(){
-      Get.offAllNamed(Routes.HOME);
-    }
+  void login() {
+    Get.offAllNamed(Routes.HOME);
+  }
 
-    //criação da função de verificação de campo de email vazio
-    bool validateEmail(){
-      if(emailInput.text.isEmpty){
-        errorEmail.value = "Preencha o E-mail!";
-        return false;
-      }
-      else{
-        errorEmail.value = null;
-        return true;
-      }
+  // Verificação de campo de email vazio
+  bool validateEmail() {
+    if (emailInput.text.isEmpty) {
+      errorEmail.value = "Preencha o E-mail!";
+      return false;
+    } else {
+      errorEmail.value = null;
+      return true;
     }
-  //criação da função de verificação de campo de senha vazio
-  bool validatePassword(){
-      if(senhaInput.text.isEmpty){
-        errorPassword.value = "Preencha sua senha!";
-        return false;
-      }
-      else{
-        errorPassword.value = null;
-        return true;
-      }
-    }
+  }
 
-    @override
+  // Verificação de campo de senha vazio
+  bool validatePassword() {
+    if (senhaInput.text.isEmpty) {
+      errorPassword.value = "Preencha sua senha!";
+      return false;
+    } else {
+      errorPassword.value = null;
+      return true;
+    }
+  }
+
+  @override
   void onClose() {
     emailInput.dispose();
+    senhaInput.dispose();
     super.onClose();
   }
 }
