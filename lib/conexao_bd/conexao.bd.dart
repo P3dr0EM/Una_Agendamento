@@ -1,17 +1,20 @@
+// ignore_for_file: avoid_print, duplicate_ignore
+
 import 'package:mysql1/mysql1.dart';
 
 /// Função para conectar ao banco e retornar a conexão
 Future<MySqlConnection?> connectToDatabase() async {
   try {
     final settings = ConnectionSettings(
-      host: 'localhost', // ou IP da máquina com MySQL
+      host: '10.34.192.153', // ou IP da máquina com MySQL
       port: 3306, // porta padrão do MySQL
       user: 'root', // usuário do banco
-      password: '', // senha do banco
+      password: 'Cookies@1234', // senha do banco
       db: 'una_agendamento', // nome do banco
     );
 
     final conn = await MySqlConnection.connect(settings);
+    // ignore: avoid_print
     print('✅ Conectado ao banco com sucesso!');
     return conn;
   } catch (e) {

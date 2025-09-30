@@ -47,6 +47,7 @@ class LoginController extends GetxController {
   }
 
   void printError(String error) {
+    // ignore: avoid_print
     print(error);
   }
 
