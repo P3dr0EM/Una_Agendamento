@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "813521822583",
+    "project_id": "login-app-78cf5",
+    "storage_bucket": "login-app-78cf5.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:813521822583:android:943b1ece9ab456c9a0f772",
+        "android_client_info": {
+          "package_name": "com.example.una_agendamento"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "813521822583-u73frvnjopttt4pao1a142l8fms38cak.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCqyJr29eLJLwyvyyFoFiIC2Hibk4If2Yg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "813521822583-u73frvnjopttt4pao1a142l8fms38cak.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

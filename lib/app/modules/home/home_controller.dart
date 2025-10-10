@@ -55,7 +55,6 @@ class HomeController extends GetxController {
     }
   }
 
-  /// --- NOVA FUNÇÃO PARA MOSTRAR O CALENDÁRIO ---
   void showCalendarPicker() {
     // Get.bottomSheet é a forma do GetX de chamar um ModalBottomSheet.
     Get.bottomSheet(

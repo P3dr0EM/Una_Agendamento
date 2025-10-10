@@ -1,5 +1,3 @@
-// lib/app/modules/home/widgets/calendar_widget.dart
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -36,10 +34,10 @@ class CalendarWidget extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           // Obx garante que o calendário se reconstrua ao selecionar um dia.
-          Obx(
+          Obx( 
             () => TableCalendar(
               // Configurações básicas
-             // locale: 'pt_BR', // Usa a localização para o português do Brasil
+              locale: 'pt_BR', // Usa a localização para o português do Brasil
               firstDay: DateTime.utc(2020, 1, 1),
               lastDay: DateTime.utc(2030, 12, 31),
               focusedDay: controller.focusedDay.value,
