@@ -43,7 +43,8 @@ class LoginView extends GetView<LoginController> {
               SizedBox(height: 20), //espaçamento
               LoginButton(),  //Chamada do botão de Login
               SizedBox(height: 30), //espaçamento
-              ForgetPassword() //Chamada do campo de Esqueceu a Senha
+              ForgetPassword(),
+              SizedBox(height: 30,)
             ],
           ),
         ),
