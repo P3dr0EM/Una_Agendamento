@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:una_agendamento/app/routes/app_pages.dart';
-import 'package:una_agendamento/Conexao_bd/conexao.bd.dart';
+import 'package:una_agendamento/conexao_bd/conexao.bd.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

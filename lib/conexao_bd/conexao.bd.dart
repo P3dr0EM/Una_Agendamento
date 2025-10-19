@@ -4,10 +4,10 @@ import 'package:mysql1/mysql1.dart';
 Future<MySqlConnection?> connectToDatabase() async {
   try {
     final settings = ConnectionSettings(
-      host: 'localhost', // ou IP da máquina com MySQL
+      host: '192.168.100.98', // ou IP da máquina com MySQL
       port: 3306, // porta padrão do MySQL
       user: 'root', // usuário do banco
-      password: '', // senha do banco
+      password: 'Cookies@1234', // senha do banco
       db: 'una_agendamento', // nome do banco
     );
 
