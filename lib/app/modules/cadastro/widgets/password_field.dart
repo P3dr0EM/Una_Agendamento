@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart'; // Importe Getx para GetView
 import 'package:una_agendamento/app/modules/cadastro/cadastro_controller.dart';
 
 class PasswordField extends GetView<CadastroController> {
@@ -11,13 +11,24 @@ class PasswordField extends GetView<CadastroController> {
       padding: const EdgeInsets.only(left: 8, right: 8),
       child: Obx(
         () => TextFormField(
-          controller: controller.senhaInput, //chama o controlador de texto
+          // Usando TextFormField, que é ideal para validação
+          controller: controller.senhaInput,
           obscureText: true,
           keyboardType: TextInputType.text,
+          focusNode: controller.senhaFocus,
+
+          // Ação para o último campo deve ser 'done' (Concluído)
+          textInputAction: TextInputAction.next,
+
+          onFieldSubmitted: (_) {
+            controller.senhaFocus.unfocus();
+            FocusScope.of(context).requestFocus(controller.dddFocus);
+          },
           decoration: InputDecoration(
             label: const Text("SENHA"),
             errorText: controller.errorSenha.value,
-          ), //chama o controlador de erro
+            counterText: '', // Remove o contador de caracteres
+          ),
         ),
       ),
     );

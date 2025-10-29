@@ -3,51 +3,63 @@ import 'package:get/get.dart';
 import 'package:una_agendamento/app/modules/cadastro/cadastro_controller.dart';
 import 'package:una_agendamento/app/modules/cadastro/widgets/cadastro_button.dart';
 import 'package:una_agendamento/app/modules/cadastro/widgets/name_field.dart';
-import 'package:una_agendamento/app/modules/cadastro/widgets/ra_field.dart';
 import 'package:una_agendamento/app/modules/cadastro/widgets/email_field.dart';
 import 'package:una_agendamento/app/modules/cadastro/widgets/password_field.dart';
-import 'package:una_agendamento/app/modules/cadastro/widgets/password_confirm_field.dart';
+import 'package:una_agendamento/app/modules/cadastro/widgets/ddd_field.dart';
+import 'package:una_agendamento/app/modules/cadastro/widgets/telefone_field.dart';
+import 'package:una_agendamento/app/modules/cadastro/widgets/cpf_field.dart';
 
-//construção da tela de Login Inicial
 class CadastroView extends GetView<CadastroController> {
   const CadastroView({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      //Barra do Top da tela
-      appBar: AppBar(backgroundColor: const Color(0xFF5B1C8D)),
+      appBar: AppBar(backgroundColor: const Color.fromARGB(255, 160, 61, 241)),
       resizeToAvoidBottomInset: true,
-      //Construção da página
       body: Container(
         color: const Color.fromARGB(255, 255, 255, 255),
         height: double.infinity,
         child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Column(
             children: [
-              SizedBox(height: 30), //espaçamento da barra do top
+              const SizedBox(height: 30), // Espaçamento da barra do topo
               Center(
-                //Construção da Imagem da Logo
                 child: Image.asset(
                   "assets/images/una.login.png",
                   width: double.infinity,
                   height: 150,
+                  fit: BoxFit.contain,
                 ),
               ),
-              SizedBox(height: 100), //espaçamento da Logo
-              NameField(), //Chamada do campo de nome
-              SizedBox(height: 5), //espaçamento
-              EmailField(), //Chamada do campo de e-mail
-              SizedBox(height: 5), //espaçamento
-              RaField(), //Chamada do campo de RA
-              SizedBox(height: 5), //espaçamento
-              PasswordField(), //Chamada do campo de senha
-              SizedBox(height: 5), //espaçamento
-              PasswordConfirmField(), //Chamada do campo de confirmação de senha
-              SizedBox(height: 10), //espaçamento
-              SizedBox(height: 20), //espaçamento
-              CadastroButton(), //Chamada do botão de Login
-              SizedBox(height: 30), //espaçamento
+              const SizedBox(height: 100), // Espaçamento da logo
+              const NameField(), // Campo de nome
+              const SizedBox(height: 5),
+              const CpfField(), // Campo de CPF
+              const SizedBox(height: 5),
+              const EmailField(), // Campo de e-mail
+              const SizedBox(height: 5),
+              const PasswordField(), // Campo de senha
+              const SizedBox(height: 10),
+
+              // 🔹 DDD e Telefone lado a lado
+              Row(
+                children: [
+                  SizedBox(
+                    width: 50, // largura fixa para o DDD
+                    child: const DddField(),
+                  ),
+                  const SizedBox(width: 0),
+                  Expanded(
+                    child: const TelefoneField(), // Campo do número de telefone
+                  ),
+                ],
+              ),
+
+              const SizedBox(height: 50),
+              const CadastroButton(), // Botão de cadastro
+              const SizedBox(height: 20),
             ],
           ),
         ),

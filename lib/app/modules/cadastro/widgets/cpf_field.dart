@@ -3,9 +3,8 @@ import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:get/get_state_manager/src/simple/get_view.dart';
 import 'package:una_agendamento/app/modules/cadastro/cadastro_controller.dart';
 
-//Construção do Widget do Campo de Email
-class RaField extends GetView<CadastroController> {
-  const RaField({super.key});
+class CpfField extends GetView<CadastroController> {
+  const CpfField({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,11 +13,18 @@ class RaField extends GetView<CadastroController> {
       child: Obx(
         () => TextField(
           controller:
-              controller.raInput, //chama o controlador do campo de texto
+              controller.cpfInput, //chama o controlador do campo de texto
           keyboardType: TextInputType.number,
+          maxLength: 11,
+          focusNode: controller.cpfFocus,
+          textInputAction: TextInputAction.next,
+          onSubmitted: (_) {
+            FocusScope.of(context).requestFocus(controller.emailFocus);
+          },
           decoration: InputDecoration(
-            label: const Text("RA"),
-            errorText: controller.errorRA.value, //chama o controlador de erro
+            label: const Text("CPF"),
+            errorText: controller.errorCpf.value, //chama o controlador de erro
+            counterText: '',
           ),
         ),
       ),

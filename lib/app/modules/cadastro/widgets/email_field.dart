@@ -16,6 +16,13 @@ class EmailField extends GetView<CadastroController> {
           controller:
               controller.emailInput, //chama o controlador do campo de texto
           keyboardType: TextInputType.emailAddress,
+          focusNode: controller.emailFocus,
+          textInputAction: TextInputAction.next,
+          onSubmitted: (_) {
+            FocusScope.of(
+              context,
+            ).requestFocus(controller.senhaFocus); //muda o foco
+          },
           decoration: InputDecoration(
             label: const Text("EMAIL"),
             errorText:

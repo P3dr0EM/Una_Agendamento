@@ -1,4 +1,5 @@
 abstract class Routes {
+  static const ENDERECO = '/endereco';
   // ignore: constant_identifier_names
   static const LOGIN = '/login';
   // ignore: constant_identifier_names

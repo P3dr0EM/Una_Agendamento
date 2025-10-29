@@ -4,8 +4,8 @@ import 'package:get/get_state_manager/src/simple/get_view.dart';
 import 'package:una_agendamento/app/modules/cadastro/cadastro_controller.dart';
 
 //Construção do Widget do Campo de Email
-class NameField extends GetView<CadastroController> {
-  const NameField({super.key});
+class DddField extends GetView<CadastroController> {
+  const DddField({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -14,16 +14,20 @@ class NameField extends GetView<CadastroController> {
       child: Obx(
         () => TextField(
           controller:
-              controller.nomeInput, //chama o controlador do campo de texto
-          keyboardType: TextInputType.name,
-          focusNode: controller.nomeFocus,
+              controller.dddInput, //chama o controlador do campo de texto
+          keyboardType: TextInputType.number,
+          maxLength: 3,
+          focusNode: controller.dddFocus,
           textInputAction: TextInputAction.next,
           onSubmitted: (_) {
-            FocusScope.of(context).requestFocus(controller.cpfFocus);
+            FocusScope.of(context).requestFocus(
+              controller.telefoneFocus,
+            ); // Muda o foco para o telefone
           },
           decoration: InputDecoration(
-            label: const Text("NOME"),
-            errorText: controller.errorNome.value, //chama o controlador de erro
+            label: const Text("DDD"),
+            errorText: controller.errorddd.value, //chama o controlador de erro
+            counterText: '', // Remove o contador de caracteres
           ),
         ),
       ),
