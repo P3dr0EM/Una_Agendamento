@@ -5,20 +5,11 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/route_manager.dart';
 import 'package:una_agendamento/app/routes/app_pages.dart';
 import 'package:una_agendamento/app/services/data_format_service.dart';
-import 'package:una_agendamento/conexao_bd/conexao.bd.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await configureDateFormatting();
   await Firebase.initializeApp();
-  // 🔹 Conectar ao banco antes de rodar o app
-  final conn = await connectToDatabase();
-  if (conn == null) {
-    print("❌ Erro ao conectar ao banco de dados!");
-  } else {
-    print("✅ Banco conectado com sucesso!");
-  }
-
   runApp(const MyApp());
 }
 

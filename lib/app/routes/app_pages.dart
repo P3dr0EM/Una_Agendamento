@@ -10,7 +10,7 @@ import 'package:una_agendamento/app/routes/app_routes.dart';
 class AppPages {
   //Define a rota inicial do app
   // ignore: constant_identifier_names
-  static const INITIAL = Routes.CADASTRO;
+  static const INITIAL = Routes.LOGIN;
 
   static final routes = [
     GetPage(
