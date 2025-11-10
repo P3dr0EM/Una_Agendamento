@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:una_agendamento/app/routes/app_routes.dart';

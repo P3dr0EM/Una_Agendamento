@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:mysql1/mysql1.dart';
 
 /// Função para conectar ao banco e retornar a conexão
