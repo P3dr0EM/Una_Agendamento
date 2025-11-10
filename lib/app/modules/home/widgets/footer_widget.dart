@@ -19,8 +19,8 @@ class FooterWidget extends StatelessWidget {
               label: 'Início',
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.favorite),
-              label: 'Favoritos',
+              icon: Icon(Icons.calendar_month),
+              label: 'Calendário',
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.person),

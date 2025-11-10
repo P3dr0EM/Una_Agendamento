@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print, duplicate_ignore
+
 import 'package:mysql1/mysql1.dart';
 
 /// Função para conectar ao banco e retornar a conexão
@@ -12,6 +14,7 @@ Future<MySqlConnection?> connectToDatabase() async {
     );
 
     final conn = await MySqlConnection.connect(settings);
+    // ignore: avoid_print
     print('✅ Conectado ao banco com sucesso!');
     return conn;
   } catch (e) {

@@ -30,12 +30,20 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
+  table_calendar: ^3.2.0
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
   get: ^4.7.2
   mysql1: ^0.20.0
+  flutter_localization: ^0.3.3
+  intl: 0.20.2
+  firebase_auth: ^6.1.0
+  google_sign_in: ^7.2.0
+  firebase_core: ^4.1.1
+  flutter_localizations:
+    sdk: flutter
+
 
 dev_dependencies:
   flutter_test:
@@ -46,7 +54,7 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^5.0.0
+  flutter_lints: ^6.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
@@ -61,7 +69,8 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/images/ 
+    - assets/images/
+    - assets/icons/
   # - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
