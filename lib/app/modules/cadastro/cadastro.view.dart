@@ -1,21 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:una_agendamento/app/modules/login/login_controller.dart';
-import 'package:una_agendamento/app/modules/login/widgets/checkbox_field.dart';
-import 'package:una_agendamento/app/modules/login/widgets/email_field.dart';
-import 'package:una_agendamento/app/modules/login/widgets/forget_password.dart';
-import 'package:una_agendamento/app/modules/login/widgets/google_button.dart';
-import 'package:una_agendamento/app/modules/login/widgets/login_button.dart';
-import 'package:una_agendamento/app/modules/login/widgets/password_field.dart';
+// Certifique-se de que todos esses imports apontam para os arquivos corretos
+import 'package:una_agendamento/app/modules/cadastro/cadastro_controller.dart';
+import 'package:una_agendamento/app/modules/cadastro/widgets/cadastro_button.dart';
+import 'package:una_agendamento/app/modules/cadastro/widgets/name_field.dart';
+import 'package:una_agendamento/app/modules/cadastro/widgets/email_field.dart';
+import 'package:una_agendamento/app/modules/cadastro/widgets/password_field.dart';
+import 'package:una_agendamento/app/modules/cadastro/widgets/ddd_field.dart';
+import 'package:una_agendamento/app/modules/cadastro/widgets/telefone_field.dart';
+import 'package:una_agendamento/app/modules/cadastro/widgets/cpf_field.dart';
 
-//construção da tela de Login Inicial
-class LoginView extends GetView<LoginController> {
-  const LoginView({super.key});
+class CadastroView extends GetView<CadastroController> {
+  const CadastroView({super.key});
 
   static const Color primaryPurple = Color(
     0xFF780BBA,
   ); // Roxo principal do fundo/logo
-
+  static const Color buttonPurple = Color.fromARGB(
+    255,
+    87,
+    35,
+    137,
+  ); // Roxo do botão
   static const Color fieldBorderColor = Colors.grey; // Cor da borda dos campos
   static const Color fieldLabelColor =
       Colors.black87; // Cor dos rótulos dos campos (NOME, CPF)
@@ -29,7 +35,7 @@ class LoginView extends GetView<LoginController> {
         child: SingleChildScrollView(
           child: Column(
             children: [
-              const SizedBox(height: 60),
+              const SizedBox(height: 30),
               Center(
                 child: Image.asset(
                   "assets/images/una.login.png", // Seu logo
@@ -38,7 +44,7 @@ class LoginView extends GetView<LoginController> {
                   fit: BoxFit.contain,
                 ),
               ),
-              const SizedBox(height: 60),
+              const SizedBox(height: 15),
               Center(
                 // O Padding define a margem externa do cartão
                 child: Padding(
@@ -46,6 +52,7 @@ class LoginView extends GetView<LoginController> {
                   child: Container(
                     // Limita a largura máxima do cartão
                     constraints: const BoxConstraints(maxWidth: 450),
+
                     decoration: BoxDecoration(
                       color: Colors.white,
                       // Arredonda TODOS os 4 cantos
@@ -74,7 +81,7 @@ class LoginView extends GetView<LoginController> {
                         // TÍTULO CENTRALIZADO
                         const Center(
                           child: Text(
-                            "Bem-Vindo!",
+                            "Cadastro",
                             style: TextStyle(
                               fontSize: 28,
                               fontWeight: FontWeight.bold,
@@ -86,17 +93,34 @@ class LoginView extends GetView<LoginController> {
                         // Espaçamento reduzido após o título
                         const SizedBox(height: 20),
 
+                        // Campos do Formulário
+                        const NameField(),
+                        // Espaçamento reduzido entre campos
+                        const SizedBox(height: 15),
+
+                        const CpfField(),
+                        const SizedBox(height: 15),
+
                         const EmailField(),
                         const SizedBox(height: 15),
 
                         const PasswordField(),
-                        const SizedBox(height: 20),
-                        const CheckboxField(),
+                        const SizedBox(height: 15),
+
+                        // DDD e Telefone lado a lado
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            SizedBox(width: 80, child: const DddField()),
+                            const SizedBox(width: 10),
+                            const Expanded(child: TelefoneField()),
+                          ],
+                        ),
+
                         // Espaçamento antes do botão
                         const SizedBox(height: 25),
-                        const LoginButton(),
+                        const CadastroButton(),
                         const SizedBox(height: 10),
-                        const ForgetPassword(),
                       ],
                     ),
                   ),
