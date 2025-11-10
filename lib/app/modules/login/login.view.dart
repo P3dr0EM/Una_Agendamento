@@ -4,6 +4,7 @@ import 'package:una_agendamento/app/modules/login/login_controller.dart';
 import 'package:una_agendamento/app/modules/login/widgets/checkbox_field.dart';
 import 'package:una_agendamento/app/modules/login/widgets/email_field.dart';
 import 'package:una_agendamento/app/modules/login/widgets/forget_password.dart';
+import 'package:una_agendamento/app/modules/login/widgets/google_button.dart';
 import 'package:una_agendamento/app/modules/login/widgets/login_button.dart';
 import 'package:una_agendamento/app/modules/login/widgets/password_field.dart';
 
@@ -42,9 +43,11 @@ class LoginView extends GetView<LoginController> {
               CheckboxField(), //Chamada do campo Lembrar de Mim
               SizedBox(height: 20), //espaçamento
               LoginButton(),  //Chamada do botão de Login
-              SizedBox(height: 30), //espaçamento
+              SizedBox(height: 30),
+              LogarGoogle(),
+              SizedBox(height: 10), //espaçamento
               ForgetPassword(),
-              SizedBox(height: 30,)
+              
             ],
           ),
         ),
