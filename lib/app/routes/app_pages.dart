@@ -19,7 +19,7 @@ class AppPages {
       binding: LoginBidings(),
     ),
     GetPage(
-      name: Routes.CADASTRO,
+      name: Routes.LOGIN,
       page: () => CadastroView(),
       binding: CadastroBiding(),
     ),

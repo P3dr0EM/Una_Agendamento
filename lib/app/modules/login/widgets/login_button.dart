@@ -11,19 +11,20 @@ class LoginButton extends GetView<LoginController> {
   @override
   Widget build(BuildContext context) {
     return Center(
-                child: ElevatedButton(
-                  onPressed: (){
-                    controller.logar(); //chama a função de logar da classe LoginController
-                    bool email = controller.validateEmail();
-                    bool senha = controller.validatePassword();
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(255, 206, 1, 38),
-                    foregroundColor: const Color.fromARGB(255, 255, 255, 255),
-                    padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
-                  ),
-                  child: Text("Logar"),
-                ),
-              );
+      child: ElevatedButton(
+        onPressed: () {
+          controller
+              .logar(); //chama a função de logar da classe LoginController
+          bool email = controller.validateEmail();
+          bool senha = controller.validatePassword();
+        },
+        style: ElevatedButton.styleFrom(
+          backgroundColor: const Color.fromARGB(255, 87, 35, 137),
+          foregroundColor: const Color.fromARGB(255, 255, 255, 255),
+          padding: EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+        ),
+        child: Text("Logar"),
+      ),
+    );
   }
 }
