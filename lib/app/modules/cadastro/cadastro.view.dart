@@ -59,6 +59,7 @@ class CadastroView extends GetView<CadastroController> {
                       borderRadius: BorderRadius.circular(16.0),
                       boxShadow: [
                         BoxShadow(
+                          // ignore: deprecated_member_use
                           color: Colors.black.withOpacity(0.2),
                           blurRadius: 15,
                           offset: const Offset(0, 5),

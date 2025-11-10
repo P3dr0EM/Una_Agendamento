@@ -4,7 +4,6 @@ import 'package:una_agendamento/app/modules/login/login_controller.dart';
 import 'package:una_agendamento/app/modules/login/widgets/checkbox_field.dart';
 import 'package:una_agendamento/app/modules/login/widgets/email_field.dart';
 import 'package:una_agendamento/app/modules/login/widgets/forget_password.dart';
-import 'package:una_agendamento/app/modules/login/widgets/google_button.dart';
 import 'package:una_agendamento/app/modules/login/widgets/login_button.dart';
 import 'package:una_agendamento/app/modules/login/widgets/password_field.dart';
 
@@ -52,6 +51,7 @@ class LoginView extends GetView<LoginController> {
                       borderRadius: BorderRadius.circular(16.0),
                       boxShadow: [
                         BoxShadow(
+                          // ignore: deprecated_member_use
                           color: Colors.black.withOpacity(0.2),
                           blurRadius: 15,
                           offset: const Offset(0, 5),
