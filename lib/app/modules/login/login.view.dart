@@ -6,14 +6,11 @@ import 'package:una_agendamento/app/modules/login/widgets/email_field.dart';
 import 'package:una_agendamento/app/modules/login/widgets/forget_password.dart';
 import 'package:una_agendamento/app/modules/login/widgets/login_button.dart';
 import 'package:una_agendamento/app/modules/login/widgets/password_field.dart';
+import 'package:una_agendamento/constants.dart';
 
 //construção da tela de Login Inicial
 class LoginView extends GetView<LoginController> {
   const LoginView({super.key});
-
-  static const Color primaryPurple = Color(
-    0xFF780BBA,
-  ); // Roxo principal do fundo/logo
 
   static const Color fieldBorderColor = Colors.grey; // Cor da borda dos campos
   static const Color fieldLabelColor =
@@ -22,22 +19,20 @@ class LoginView extends GetView<LoginController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: primaryPurple,
+      backgroundColor: corRoxaPrincipal,
       body: SafeArea(
         // Envolvemos a Column em um SingleChildScrollView para evitar overflow
         child: SingleChildScrollView(
           child: Column(
             children: [
-              const SizedBox(height: 60),
               Center(
                 child: Image.asset(
-                  "assets/images/una.login.png", // Seu logo
+                  "assets/images/unaLogo.png", // Seu logo
                   width: double.infinity,
-                  height: 150, // Altura do logo
-                  fit: BoxFit.contain,
+                  height: 300, // Altura do logo
+                  fit: BoxFit.cover,
                 ),
               ),
-              const SizedBox(height: 60),
               Center(
                 // O Padding define a margem externa do cartão
                 child: Padding(
@@ -61,8 +56,8 @@ class LoginView extends GetView<LoginController> {
 
                     // Padding vertical reduzido (diminui a altura do cartão)
                     padding: const EdgeInsets.symmetric(
-                      horizontal: 24,
-                      vertical: 20,
+                      horizontal: 22,
+                      vertical: 30,
                     ),
 
                     child: Column(
@@ -78,7 +73,7 @@ class LoginView extends GetView<LoginController> {
                             style: TextStyle(
                               fontSize: 28,
                               fontWeight: FontWeight.bold,
-                              color: primaryPurple,
+                              color: corRoxaPrincipal,
                             ),
                           ),
                         ),

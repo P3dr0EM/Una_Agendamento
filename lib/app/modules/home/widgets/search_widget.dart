@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:una_agendamento/app/modules/home/home_controller.dart';
-
+import 'package:una_agendamento/constants.dart';
 
 class SearchAppBar extends StatelessWidget implements PreferredSizeWidget {
   const SearchAppBar({super.key});
@@ -31,7 +31,7 @@ class SearchAppBar extends StatelessWidget implements PreferredSizeWidget {
               border: InputBorder.none,
             ),
           ),
-          backgroundColor: Color.fromARGB(255, 206, 1, 38),
+          backgroundColor: corRoxaPrincipal,
         );
       } else {
         // --- APPBAR NO MODO NORMAL ---
@@ -40,17 +40,29 @@ class SearchAppBar extends StatelessWidget implements PreferredSizeWidget {
           title: const Text(
             'Página Inicial',
             style: TextStyle(
-              color: Colors.white
+              color: branco,
             ),
-            ),
+          ),
+          leading: Builder(
+            builder: (BuildContext context) {
+              return IconButton(
+                icon: const Icon(
+                  Icons.menu,
+                ), // Adicione seu ícone personalizado aqui
+                tooltip: 'Abrir menu',
+                onPressed: () => Scaffold.of(context).openDrawer(),
+              );
+            },
+          ),
 
+          // O ícone de pesquisa permanece o mesmo
           actions: [
             IconButton(
-              icon: const Icon(Icons.search, color: Colors.white,),
+              icon: const Icon(Icons.search),
               onPressed: controller.toggleSearch,
             ),
           ],
-          backgroundColor: Color.fromARGB(255, 206, 1, 38),
+          backgroundColor: corRoxaPrincipal,
           iconTheme: const IconThemeData(color: Colors.white),
         );
       }
