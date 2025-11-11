@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:una_agendamento/app/modules/home/widgets/calendar_widget.dart';
@@ -24,6 +26,68 @@ class HomeController extends GetxController {
   // Guarda a data efetivamente selecionada pelo usuário.
   var selectedDay = DateTime.now().obs;
 
+  final carrosselPagina = 0.obs; //índice da página atual do carrossel
+
+  //lista das imagens do carrossel
+  final List<String> bannerItems =[
+    'assets/images/imagemBanner01.png',
+    'assets/images/imagemBanner02.png',
+    'assets/images/imagemBanner03.png'
+  ];
+
+  //lista dos icones de serviços
+  final List<Map<String, String>> servicosPopulares = [
+    {
+      "nome": "Dentista",
+      "icone": "assets/icons/dentista.png",
+      "rota": "/agendamento/dentista"
+    },
+    {
+      "nome": "Psicologo",
+      "icone": "assets/icons/Célebro.png",
+      "rota": "/agendamento/psicologo"
+    },
+    {
+      "nome": "Veterinária",
+      "icone": "assets/icons/pet.png",
+      "rota": "/agendamento/veterinaria"
+    },
+    {
+      "nome": "Exames",
+      "icone": "assets/icons/exame.png",
+      "rota": "/agendamento/exames"
+    },
+    {
+      "nome": "Financeiro",
+      "icone": "assets/icons/financeiro.png",
+      "rota": "/agendamento/financeiro"
+    },
+    {
+      "nome": "Fisioterapia",
+      "icone": "assets/icons/fisioterapia.png",
+      "rota": "/agendamento/psicologo"
+    },
+  ];
+
+  /// Função chamada ao clicar em um bloco de serviço
+  void navegarParaServico(String rota, String nomeServico) {
+    print("Navegando para $rota (Serviço: $nomeServico)");
+    
+    // Ação futura: navegar para a tela de agendamento
+    // Get.toNamed(rota, arguments: {'nome': nomeServico});
+    
+    // Ação atual: mostrar um snackbar de feedback
+    Get.snackbar(
+      "Serviço Selecionado",
+      "Iniciando agendamento para: $nomeServico",
+      snackPosition: SnackPosition.BOTTOM
+    );
+  }
+
+  void onCarouselPageChanged(int index){
+    carrosselPagina.value = index;
+  }
+
   @override
   void onInit() {
     super.onInit();
@@ -38,7 +102,9 @@ class HomeController extends GetxController {
     if (!isSearching.value) {
       searchController.clear();
     } else {
-      Future.delayed(const Duration(milliseconds: 100), () {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        // Esta função só roda DEPOIS que a tela for redesenhada.
+        // Agora, temos certeza que o TextField existe antes de focar nele.
         searchFocusNode.requestFocus();
       });
     }

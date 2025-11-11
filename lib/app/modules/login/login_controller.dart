@@ -3,7 +3,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:una_agendamento/app/routes/app_routes.dart';
-import 'package:una_agendamento/conexao_bd/conexao.bd.dart';
 
 class LoginController extends GetxController {
   TextEditingController emailInput =
@@ -35,8 +34,7 @@ class LoginController extends GetxController {
     if (email == adminEmail && senha == adminSenha) {
       valido = true;
     } else {
-      // Depois verifica no banco de dados
-      valido = await validarLogin(email, senha);
+      print('Error');
     }
 
     if (valido) {
