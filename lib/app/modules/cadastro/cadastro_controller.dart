@@ -1,5 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:una_agendamento/app/routes/app_routes.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 
 class CadastroController extends GetxController {
   final nomeFocus = FocusNode();
@@ -24,6 +28,9 @@ class CadastroController extends GetxController {
   final RxnString errorSenha = RxnString(null);
   final RxnString errorddd = RxnString(null);
   final RxnString errorTelefone = RxnString(null);
+
+  // Adicione uma variável para controlar o estado de "carregando"
+  final RxBool isLoading = false.obs;
 
   bool _validateField({
     required String text,
@@ -111,6 +118,79 @@ class CadastroController extends GetxController {
         cpfValid &
         emailValid &
         senhaValid;
+  }
+
+  // Metodo para cadastro e usuario e chamda de API
+  Future<void> cadastrarUsuario() async {
+    // validar os campos
+    if (!validateCampos()) {
+      Get.snackbar(
+        'Erro',
+        'Por favor, corriga os erros no formulario.',
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+      return;
+    }
+
+    // se a validacao passou, ativa o carregando
+    isLoading.value = true;
+
+    final url = Uri.parse('http://10.0.2.2:8080/usuario');
+
+    // aqui se cria o corpo da requisição (dados em JSON)
+    try {
+      final body = jsonEncode({
+        'nome': nomeInput.text,
+        'cpf': cpfInput.text,
+        'email': emailInput.text,
+        'senha': senhaInput.text,
+        'telefone': dddInput.text + telefoneInput.text,
+      });
+
+      // aqui fazemos a requisicao POST
+      final response = await http.post(
+        url,
+        headers: {'Content-Type': 'application/json; charset=UTF-8'},
+        body: body,
+      );
+
+      // verifica a resposta do servidor
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        // sucesso
+        Get.snackbar(
+          'Sucesso',
+          'Usuario cadastrado com sucesso!',
+          backgroundColor: Colors.green,
+          colorText: Colors.white,
+        );
+
+        // navega para tela de login
+        Get.offNamed(Routes.LOGIN);
+      } else {
+        // mensageem de erro com a resposta do servidor
+        Get.snackbar(
+          'Erro no cadastro',
+          'Não foi possivel cadastrar. Erro ${response.statusCode})',
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+        );
+        print('Erro: ${response.body}');
+      }
+    } catch (e) {
+      // Erro de conexão (servidor desligado, sem internet, etc)
+      Get.snackbar(
+        'Erro na Conexao',
+        'Não foi possivel conectar ao servidor. Tente mais tarde',
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+      );
+      print('Erro de Conexão: $e');
+
+      // Desliga o "Carregando"
+    } finally {
+      isLoading.value = false;
+    }
   }
 
   @override
