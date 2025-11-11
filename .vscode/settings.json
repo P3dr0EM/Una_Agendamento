@@ -1,3 +1,4 @@
 {
-    "cmake.sourceDirectory": "C:/Projeto/Una_Agendamento/linux"
+    "cmake.sourceDirectory": "C:/Projeto/Una_Agendamento/linux",
+    "java.configuration.updateBuildConfiguration": "interactive"
 }

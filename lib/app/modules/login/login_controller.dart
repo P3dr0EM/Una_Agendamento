@@ -3,6 +3,8 @@
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:una_agendamento/app/routes/app_routes.dart';
+import 'dart:convert'; // Importe para usar o jsonEncode
+import 'package:http/http.dart' as http; // Importe o http
 
 class LoginController extends GetxController {
   TextEditingController emailInput =
@@ -43,6 +45,35 @@ class LoginController extends GetxController {
       printError("E-mail ou senha inválidos!");
       errorEmail.value = "E-mail ou senha inválidos!";
       errorPassword.value = "E-mail ou senha inválidos!";
+    }
+  }
+
+  Future<bool> validarLogin(String email, String senha) async {
+    // implementar a chamada HTTP para o seu Spring Boot aqui.
+
+    try {
+      final url = Uri.parse(
+        'http://10.0.2.2:8080/login',
+      ); // Exemplo de URL
+      final body = jsonEncode({'email': email, 'senha': senha});
+
+      final response = await http.post(
+        url,
+        headers: {'Content-Type': 'application/json'},
+        body: body,
+      );
+
+      // Se o login for sucesso (ex: status 200), retorne true
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        // Se o back-end disser que o login falhou, retorne false
+        return false;
+      }
+    } catch (e) {
+      // Se houver um erro (sem internet, API desligada), retorne false
+      print("Erro ao conectar com a API: $e");
+      return false;
     }
   }
 

@@ -43,6 +43,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   http: ^1.2.1
+  carousel_slider: ^5.1.1
 
 dev_dependencies:
   flutter_test:
