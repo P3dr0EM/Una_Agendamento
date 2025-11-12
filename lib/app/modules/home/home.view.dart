@@ -96,7 +96,8 @@ class HomeView extends GetView<HomeController> {
           }),
         ],
       ),
-      bottomNavigationBar: const FooterWidget(),
+
+      bottomNavigationBar: SafeArea(child: const FooterWidget()),
     );
   }
 }
