@@ -1,4 +1,6 @@
 import 'package:get/get_navigation/get_navigation.dart';
+import 'package:una_agendamento/app/modules/agendamento/agendamento_bindings.dart';
+import 'package:una_agendamento/app/modules/agendamento/agendamento_view.dart';
 import 'package:una_agendamento/app/modules/cadastro/cadastro_binding.dart';
 import 'package:una_agendamento/app/modules/cadastro/cadastro.view.dart';
 import 'package:una_agendamento/app/modules/home/home.view.dart';
@@ -22,6 +24,16 @@ class AppPages {
       name: Routes.LOGIN,
       page: () => CadastroView(),
       binding: CadastroBinding(),
+    ),
+    GetPage(
+      name: '${Routes.AGENDAMENTO}/:servico', // Ex: /agendamento/dentista
+      page: () => const AgendamentoView(),
+      binding: AgendamentoBinding(),
+    ),
+    GetPage(
+      name: Routes.HOME,
+      page: () => const HomeView(),
+      binding: HomeBidings(),
     ),
 
     GetPage(name: Routes.HOME, page: () => HomeView(), binding: HomeBidings()),

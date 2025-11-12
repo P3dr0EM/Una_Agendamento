@@ -51,15 +51,15 @@ class HomeView extends GetView<HomeController> {
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
 
-                      crossAxisSpacing: 12, // Espaçamento horizontal
-                      mainAxisSpacing: 12, // Espaçamento vertical
-                      // Mapeia a lista do controller para os widgets de bloco
+                      crossAxisSpacing: 12,
+                      mainAxisSpacing: 12, 
+
                       children: controller.servicosPopulares.map((servico) {
                         return ServiceBlockWidget(
                           assetPath: servico['icone']!,
                           text: servico['nome']!,
                           onTap: () => controller.navegarParaServico(
-                            servico['rota']!,
+                            servico['rotaKey']!,
                             servico['nome']!,
                           ),
                         );

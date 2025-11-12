@@ -1,8 +1,8 @@
 // ignore_for_file: avoid_print
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:una_agendamento/app/modules/home/widgets/calendar_widget.dart';
+import 'package:una_agendamento/app/routes/app_routes.dart';
 
 class HomeController extends GetxController {
   final isSearching = false.obs;
@@ -40,53 +40,45 @@ class HomeController extends GetxController {
     {
       "nome": "Dentista",
       "icone": "assets/icons/dentista.png",
-      "rota": "/agendamento/dentista"
+      "rotaKey": "dentista"
     },
     {
       "nome": "Psicologo",
       "icone": "assets/icons/Célebro.png",
-      "rota": "/agendamento/psicologo"
+      "rotaKey": "psicologo"
     },
     {
       "nome": "Veterinária",
       "icone": "assets/icons/pet.png",
-      "rota": "/agendamento/veterinaria"
+      "rotaKey": "veterinaria"
     },
     {
       "nome": "Exames",
       "icone": "assets/icons/exame.png",
-      "rota": "/agendamento/exames"
+      "rotaKey": "exames"
     },
     {
       "nome": "Financeiro",
       "icone": "assets/icons/financeiro.png",
-      "rota": "/agendamento/financeiro"
+      "rotaKey": "financeiro"
     },
     {
       "nome": "Fisioterapia",
       "icone": "assets/icons/fisioterapia.png",
-      "rota": "/agendamento/psicologo"
+      "rotaKey": "psicologo"
     },
     {
       "nome": "Medicina",
       "icone": "assets/icons/medicina.png",
-      "rota": "/agendamento/medicina"
+      "rotaKey": "medicina"
     },
   ];
 
   /// Função chamada ao clicar em um bloco de serviço
-  void navegarParaServico(String rota, String nomeServico) {
-    print("Navegando para $rota (Serviço: $nomeServico)");
+  void navegarParaServico(String rotaKey, String nomeServico) {
+    print("Navegando para $rotaKey (Serviço: $nomeServico)");
     
-    // Ação futura: navegar para a tela de agendamento
-    // Get.toNamed(rota, arguments: {'nome': nomeServico});
-    
-    // Ação atual: mostrar um snackbar de feedback
-    Get.snackbar(
-      "Serviço Selecionado",
-      "Iniciando agendamento para: $nomeServico",
-      snackPosition: SnackPosition.BOTTOM
-    );
+    Get.toNamed('${Routes.AGENDAMENTO}/$rotaKey');
   }
 
   void onCarouselPageChanged(int index){
