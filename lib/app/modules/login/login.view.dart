@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:una_agendamento/app/modules/login/login_controller.dart';
+import 'package:una_agendamento/app/modules/login/widgets/cadastrobuttom_widget.dart';
 import 'package:una_agendamento/app/modules/login/widgets/checkbox_field.dart';
 import 'package:una_agendamento/app/modules/login/widgets/email_field.dart';
 import 'package:una_agendamento/app/modules/login/widgets/forget_password.dart';
@@ -77,21 +78,17 @@ class LoginView extends GetView<LoginController> {
                             ),
                           ),
                         ),
-
-                        // Espaçamento reduzido após o título
                         const SizedBox(height: 20),
-
                         const EmailField(),
                         const SizedBox(height: 15),
-
                         const PasswordField(),
                         const SizedBox(height: 20),
                         const CheckboxField(),
-                        // Espaçamento antes do botão
                         const SizedBox(height: 25),
                         const LoginButton(),
                         const SizedBox(height: 10),
                         const ForgetPassword(),
+                        CadastroButtom()
                       ],
                     ),
                   ),

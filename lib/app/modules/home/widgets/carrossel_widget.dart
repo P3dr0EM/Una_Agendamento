@@ -38,7 +38,7 @@ class CarouselWidget extends StatelessWidget {
           items: imageSliders,
           options: CarouselOptions(
             autoPlay: true, // Inicia a reprodução automática
-            autoPlayInterval: const Duration(seconds: 5), // Intervalo de 3 segundos
+            autoPlayInterval: const Duration(seconds: 5),
             aspectRatio: 16 / 9, // Proporção comum para banners
             enlargeCenterPage: true, // Destaca a página central
             viewportFraction: 0.8, // Mostra um pouco das páginas laterais

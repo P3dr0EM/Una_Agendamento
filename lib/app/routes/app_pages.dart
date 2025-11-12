@@ -35,6 +35,11 @@ class AppPages {
       page: () => const HomeView(),
       binding: HomeBidings(),
     ),
+    GetPage(
+      name: Routes.CADASTRO,
+      page: () => const CadastroView(),
+      binding: CadastroBinding(),
+    ),
 
     GetPage(name: Routes.HOME, page: () => HomeView(), binding: HomeBidings()),
   ];
