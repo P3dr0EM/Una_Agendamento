@@ -18,18 +18,12 @@ class PasswordField extends GetView<CadastroController> {
           focusNode: controller.senhaFocus,
 
           // Ação para o último campo deve ser 'done' (Concluído)
-          textInputAction: TextInputAction.done,
+          textInputAction: TextInputAction.next,
 
           onFieldSubmitted: (_) {
-            // Se a senha é o último campo, chame a validação e feche o teclado.
-            // A chamada de foco para o DDD estava incorreta para o fluxo do formulário.
-
-            // 1. Fecha o teclado
-            FocusScope.of(context).unfocus();
-
-            // 2. Opcional: Chama a validação imediatamente
-            // controller.validateCampos();
-          }, // <-- Parênteses e chaves corrigidos
+            controller.senhaFocus.unfocus();
+            FocusScope.of(context).requestFocus(controller.dddFocus);
+          },
           decoration: InputDecoration(
             label: const Text("SENHA"),
             errorText: controller.errorSenha.value,
