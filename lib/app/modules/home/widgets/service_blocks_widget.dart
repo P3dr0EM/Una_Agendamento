@@ -40,12 +40,12 @@ class ServiceBlockWidget extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center, // Centraliza o ícone e o texto
           children: [
             // 1. A IMAGEM (ÍCONE)
-            Image.asset(
-              assetPath,
-              width: 60, // Tamanho do ícone
-              height: 60,
-              // Esta é a mágica: "adapta" a cor do seu PNG para branco
-              color: corRoxaPrincipal, 
+            Expanded(
+              child: Image.asset(
+                assetPath,
+                color: corRoxaPrincipal,
+                fit: BoxFit.contain, 
+              ),
             ),
             const SizedBox(height: 8), // Espaço entre ícone e texto
             

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
+import 'package:una_agendamento/constants.dart';
 
 class MenuWidget extends StatelessWidget {
   const MenuWidget({super.key});
@@ -24,7 +25,7 @@ class MenuWidget extends StatelessWidget {
               ),
             ),
             decoration: BoxDecoration(
-              color: Color.fromARGB(255, 206, 1, 38),
+              color: corRoxaPrincipal,
             ),
           ),
           // Item de menu "Início"

@@ -67,6 +67,11 @@ class HomeController extends GetxController {
       "icone": "assets/icons/fisioterapia.png",
       "rota": "/agendamento/psicologo"
     },
+    {
+      "nome": "Medicina",
+      "icone": "assets/icons/medicina.png",
+      "rota": "/agendamento/medicina"
+    },
   ];
 
   /// Função chamada ao clicar em um bloco de serviço
