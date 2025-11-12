@@ -7,13 +7,15 @@ class LogarGoogle extends GetView<LoginController> {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton.icon(
-      onPressed: controller.logar,
-      icon: Image.asset(
-        "assets/icons/g_icon_google.png",
-        width:  20.0,
-        height: 20.0,
-      ),
-      label: Text('Logar com Google'));
+    return Center(
+      child: ElevatedButton.icon(
+        onPressed: controller.tryToGoogleLogin,
+        icon: Image.asset(
+          "assets/icons/g_icon_google.png",
+          width:  20.0,
+          height: 20.0,
+        ),
+        label: Text('Logar com Google')),
+    );
   }
 }

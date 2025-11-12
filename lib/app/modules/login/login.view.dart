@@ -5,6 +5,7 @@ import 'package:una_agendamento/app/modules/login/widgets/cadastrobuttom_widget.
 import 'package:una_agendamento/app/modules/login/widgets/checkbox_field.dart';
 import 'package:una_agendamento/app/modules/login/widgets/email_field.dart';
 import 'package:una_agendamento/app/modules/login/widgets/forget_password.dart';
+import 'package:una_agendamento/app/modules/login/widgets/google_button.dart';
 import 'package:una_agendamento/app/modules/login/widgets/login_button.dart';
 import 'package:una_agendamento/app/modules/login/widgets/password_field.dart';
 import 'package:una_agendamento/constants.dart';
@@ -82,12 +83,15 @@ class LoginView extends GetView<LoginController> {
                         const EmailField(),
                         const SizedBox(height: 15),
                         const PasswordField(),
-                        const SizedBox(height: 20),
-                        const CheckboxField(),
-                        const SizedBox(height: 25),
-                        const LoginButton(),
-                        const SizedBox(height: 10),
+                        const SizedBox(height: 15),
                         const ForgetPassword(),
+                        const CheckboxField(),
+                        const SizedBox(height: 10),
+                        LogarGoogle(),
+                        const SizedBox(height: 10),
+                        SizedBox(height: 10,),
+                        const LoginButton(),
+                        SizedBox(height: 10,),
                         CadastroButtom()
                       ],
                     ),
