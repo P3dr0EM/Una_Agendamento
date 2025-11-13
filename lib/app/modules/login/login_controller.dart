@@ -22,6 +22,10 @@ class LoginController extends GetxController {
   static const adminEmail = "admin@admin.com";
   static const adminSenha = "admin";
 
+  Future<void> tryToGoogleLogin() async{
+    print('LOGAR COM GOOGLE!');
+  }
+
   // Função de login
   Future<void> logar() async {
     // Verificar campos vazios primeiro
@@ -52,9 +56,7 @@ class LoginController extends GetxController {
     // implementar a chamada HTTP para o seu Spring Boot aqui.
 
     try {
-      final url = Uri.parse(
-        'http://10.0.2.2:8080/login',
-      ); // Exemplo de URL
+      final url = Uri.parse('http://10.0.2.2:8080/login'); // Exemplo de URL
       final body = jsonEncode({'email': email, 'senha': senha});
 
       final response = await http.post(
@@ -83,10 +85,6 @@ class LoginController extends GetxController {
 
   void login() {
     Get.offAllNamed(Routes.HOME);
-  }
-
-  void tryToGoogleLogin(){
-    print('GOOGLE LOGIN');
   }
 
   // Verificação de campo de email vazio

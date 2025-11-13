@@ -23,7 +23,7 @@ class AgendamentoController extends GetxController {
   final List<int> diasLotados = [25];
 
   // --- COMPUTED (Getters Reativos) ---
-  
+
   /// Texto reativo para o botão de confirmação
   String get confirmationText {
     if (selectedDay.value == null) {
@@ -81,14 +81,21 @@ class AgendamentoController extends GetxController {
   void _loadAvailableTimes(DateTime day) {
     // Simulação de carregamento
     availableTimes.clear();
-    
+
     // Simula horários diferentes para dias diferentes
     if (day.weekday == DateTime.saturday) {
       // Sábado tem menos horários
       availableTimes.assignAll(['09:00', '10:00', '11:00']);
     } else {
       // Dias de semana
-      availableTimes.assignAll(['09:00', '10:00', '11:00', '14:00', '15:00', '16:00']);
+      availableTimes.assignAll([
+        '09:00',
+        '10:00',
+        '11:00',
+        '14:00',
+        '15:00',
+        '16:00',
+      ]);
     }
   }
 
@@ -113,12 +120,7 @@ class AgendamentoController extends GetxController {
 
   /// Função do botão de confirmação
   void confirmarAgendamento() {
-    Get.back(); // Volta para a Home
-    Get.snackbar(
-      'Agendamento Confirmado!',
-      'Seu horário para ${serviceName.value} foi marcado!',
-      snackPosition: SnackPosition.BOTTOM,
-    );
+    Get.back(result: true);// Volta para a Home
   }
 
   /// Helper para comparar datas ignorando a hora

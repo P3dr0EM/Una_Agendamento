@@ -33,7 +33,7 @@ class AgendamentoView extends GetView<AgendamentoController> {
       ),
       
       // 3. O Widget do Botão de Confirmação no rodapé
-      bottomNavigationBar: const ConfirmationButtonWidget(),
+      bottomNavigationBar: SafeArea(child: const ConfirmationButtonWidget()),
     );
   }
 }

@@ -35,7 +35,7 @@ class CalendarWidget extends StatelessWidget {
             ),
             const SizedBox(height: 16),
             // Obx garante que o calendário se reconstrua ao selecionar um dia.
-            Obx( 
+            Obx(
               () => TableCalendar(
                 // Configurações básicas
                 locale: 'pt_BR', // Usa a localização para o português do Brasil
@@ -44,27 +44,34 @@ class CalendarWidget extends StatelessWidget {
                 focusedDay: controller.focusedDay.value,
                 calendarFormat: CalendarFormat.month, // Mostra o mês inteiro
                 availableGestures: AvailableGestures.horizontalSwipe,
-                
+
                 // Estado de seleção
                 selectedDayPredicate: (day) =>
                     isSameDay(controller.selectedDay.value, day),
                 onDaySelected: controller.onDaySelected,
-                
+
                 // Desativa a mudança de foco ao arrastar
                 onPageChanged: (focusedDay) {
                   controller.focusedDay.value = focusedDay;
                 },
-                
+
                 // Estilização
                 headerStyle: const HeaderStyle(
-                  formatButtonVisible: false, // Esconde o botão de formato (ex: "2 weeks")
+                  formatButtonVisible:
+                      false, // Esconde o botão de formato (ex: "2 weeks")
                   titleCentered: true,
                   titleTextStyle: TextStyle(
-                      fontSize: 18.0, fontWeight: FontWeight.bold),
-                  leftChevronIcon:
-                      Icon(Icons.chevron_left, color: Colors.black54),
-                  rightChevronIcon:
-                      Icon(Icons.chevron_right, color: Colors.black54),
+                    fontSize: 18.0,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  leftChevronIcon: Icon(
+                    Icons.chevron_left,
+                    color: Colors.black54,
+                  ),
+                  rightChevronIcon: Icon(
+                    Icons.chevron_right,
+                    color: Colors.black54,
+                  ),
                 ),
                 calendarStyle: CalendarStyle(
                   // Estilo do dia de hoje
@@ -73,18 +80,20 @@ class CalendarWidget extends StatelessWidget {
                     shape: BoxShape.circle,
                   ),
                   todayTextStyle: TextStyle(color: Colors.black87),
-                  
+
                   // Estilo do dia selecionado
                   selectedDecoration: const BoxDecoration(
                     color: Colors.blue,
                     shape: BoxShape.circle,
                   ),
                   selectedTextStyle: const TextStyle(
-                      color: Colors.white, fontWeight: FontWeight.bold),
-                  
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+
                   // Estilo dos marcadores de fim de semana
                   weekendTextStyle: TextStyle(color: Colors.red.shade400),
-                  
+
                   // Remove marcadores fora do mês atual
                   outsideDaysVisible: false,
                 ),
@@ -110,13 +119,10 @@ class CalendarWidget extends StatelessWidget {
                   ),
                 ),
                 onPressed: () {
-                  // Fecha o Bottom Sheet
-                  Get.back();
-                  
                   // Formata a data para dd/MM/yyyy para o snackbar
                   final formattedDate =
                       "${controller.selectedDay.value.day.toString().padLeft(2, '0')}/${controller.selectedDay.value.month.toString().padLeft(2, '0')}/${controller.selectedDay.value.year}";
-      
+
                   Get.snackbar(
                     'Data Confirmada',
                     'Você escolheu: $formattedDate',

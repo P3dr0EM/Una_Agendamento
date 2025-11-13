@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:una_agendamento/app/modules/home/widgets/calendar_widget.dart';
 import 'package:una_agendamento/app/routes/app_routes.dart';
+import 'package:una_agendamento/constants.dart';
 
 class HomeController extends GetxController {
   final isSearching = false.obs;
@@ -75,12 +76,37 @@ class HomeController extends GetxController {
   ];
 
   /// Função chamada ao clicar em um bloco de serviço
-  void navegarParaServico(String rotaKey, String nomeServico) {
+  void navegarParaServico(String rotaKey, String nomeServico) async {
     print("Navegando para $rotaKey (Serviço: $nomeServico)");
-    
-    Get.toNamed('${Routes.AGENDAMENTO}/$rotaKey');
-  }
 
+    // 2. A navegação continua igual
+    final dynamic resultado = await Get.toNamed('${Routes.AGENDAMENTO}/$rotaKey');
+
+    // 3. A verificação continua igual
+    if (resultado == true) {
+      
+      // 4. A SOLUÇÃO:
+      // Nós ainda esperamos pelo próximo frame, para garantir
+      // que o contexto da HomeView esteja 100% ativo.
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        
+        // 5. Pegamos o contexto atual e seguro do GetMaterialApp
+        final BuildContext? context = Get.key.currentContext; 
+
+        // 6. Se o contexto existir (e ele vai existir),
+        //    usamos o ScaffoldMessenger NATIVO do Flutter.
+        if (context != null && context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Agendamento Confirmado! Seu horário para $nomeServico foi marcado!'),
+              backgroundColor: corRoxaPrincipal, // A cor do seu app
+              behavior: SnackBarBehavior.floating, // (Opcional, mas fica bonito)
+            ),
+          );
+        }
+      });
+    }
+  }
   void onCarouselPageChanged(int index){
     carrosselPagina.value = index;
   }
@@ -118,10 +144,10 @@ class HomeController extends GetxController {
     }
   }
 
-  void showCalendarPicker() {
-    // Get.bottomSheet é a forma do GetX de chamar um ModalBottomSheet.
-    Get.bottomSheet(
-      CalendarWidget(),
+  void showCalendarPicker() async {
+    // 2. 'await' pelo resultado do BottomSheet
+    final dynamic result = await Get.bottomSheet(
+      const CalendarWidget(),
       backgroundColor: Colors.white,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
@@ -130,6 +156,27 @@ class HomeController extends GetxController {
         ),
       ),
     );
+
+    // 3. Se um resultado (data formatada) foi retornado...
+    if (result != null && result is String) {
+      
+      // 4. APLICA A MESMA SOLUÇÃO ROBUSTA DA OUTRA FUNÇÃO
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        // Pega o contexto seguro do GetMaterialApp
+        final BuildContext? context = Get.key.currentContext;
+        if (context != null && context.mounted) {
+          
+          // Usa o ScaffoldMessenger nativo do Flutter
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Data Confirmada. Você escolheu: $result'),
+              backgroundColor: Colors.black87, // Pode customizar
+              behavior: SnackBarBehavior.floating,
+            ),
+          );
+        }
+      });
+    }
   }
 
   /// Atualiza a data selecionada a partir do widget do calendário.
