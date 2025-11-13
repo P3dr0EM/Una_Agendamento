@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:una_agendamento/constants.dart';
 
 // Classe principal que define o StatefulWidget
 class CheckboxField extends StatefulWidget {
@@ -15,7 +16,7 @@ class _TitledCheckboxField extends State<CheckboxField> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsetsGeometry.only(left: 8, right: 8),
+      padding:  const EdgeInsetsGeometry.only(left: 8, right: 8),
       child: CheckboxListTile(
         // O texto que serve como rótulo principal
         title: const Text('Lembrar de mim'),
@@ -30,7 +31,7 @@ class _TitledCheckboxField extends State<CheckboxField> {
         // Coloca o checkbox à esquerda do texto (padrão é à direita)
         controlAffinity: ListTileControlAffinity.leading,
         // Define a cor do checkbox quando marcado
-        activeColor: const Color.fromRGBO(101, 36, 252, 1)
+        activeColor: verde,
       ),
     );
   }

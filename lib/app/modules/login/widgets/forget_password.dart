@@ -7,7 +7,7 @@ class ForgetPassword extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.0),
+                padding: EdgeInsetsGeometry.only(left: 8, right: 8),
                 child: Text(
                   "Esqueceu a senha? Clique aqui!",
                   textAlign: TextAlign.left,
