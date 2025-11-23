@@ -13,12 +13,8 @@ class CadastroButton extends GetView<CadastroController> {
     return Center(
       child: ElevatedButton(
         onPressed: () {
-          if (controller.validateCampos()) {
-            // Se passou em todas as validações
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Cadastro realizado com sucesso!')),
-            );
-          }
+          // Chama a função do controller (valida e envia pro Java)
+          controller.cadastrarUsuario(); 
         },
         style: ElevatedButton.styleFrom(
           backgroundColor: const Color(0xFF5B1C8D),
