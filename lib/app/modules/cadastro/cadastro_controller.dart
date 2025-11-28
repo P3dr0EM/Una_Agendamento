@@ -96,7 +96,6 @@ class CadastroController extends GetxController {
       errorRx: errorEmail,
       validators: [
         (text) => text.isEmpty ? 'Preencha o email' : null,
-        // (text) => !GetUtils.isEmail(text) ? 'Email inválido' : null, // Sugestão: use o validador GetX
         (text) => !RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(text)
             ? 'Email inválido'
             : null,

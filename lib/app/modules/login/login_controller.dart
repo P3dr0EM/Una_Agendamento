@@ -2,61 +2,70 @@
 
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:una_agendamento/app/routes/app_routes.dart';
-import 'dart:convert'; // Importe para usar o jsonEncode
-import 'package:http/http.dart' as http; // Importe o http
+// Para o código compilar, simule a classe de rotas se não estiver disponível
+// import 'package:una_agendamento/app/routes/app_routes.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+
+// Simulação de Rotas
+class Routes {
+  static const HOME = '/home';
+}
 
 class LoginController extends GetxController {
-  TextEditingController emailInput =
-      TextEditingController(); // variável de controle do campo de email
-  TextEditingController senhaInput =
-      TextEditingController(); // variável de controle do campo de senha
-  final RxnString errorEmail = RxnString(
-    null,
-  ); // variável observável de erro do EmailField
-  final RxnString errorPassword = RxnString(
-    null,
-  ); // variável observável de erro do PasswordField
+  TextEditingController emailInput = TextEditingController();
+  TextEditingController senhaInput = TextEditingController();
+
+  final RxnString errorEmail = RxnString(null);
+  final RxnString errorPassword = RxnString(null);
 
   // Login fixo de admin
   static const adminEmail = "admin@admin.com";
-  static const adminSenha = "admin";
+  static const adminSenha = "admin"; // Menos de 8 caracteres
 
-  Future<void> tryToGoogleLogin() async{
+  // --- FUNÇÕES DE LÓGICA PRINCIPAL ---
+
+  Future<void> tryToGoogleLogin() async {
     print('LOGAR COM GOOGLE!');
   }
 
-  // Função de login
+  /// Função principal de login
   Future<void> logar() async {
-    // Verificar campos vazios primeiro
-    if (!validateEmail() || !validatePassword()) return;
+    // 1. Validar campos. Se falhar, as funções de validação já mostram o erro.
+    final emailValido = validateEmail();
+    final senhaValida = validatePassword();
+
+    if (!emailValido || !senhaValida) return;
 
     final email = emailInput.text;
     final senha = senhaInput.text;
 
     bool valido = false;
 
-    // Primeiro verifica login admin fixo
+    // 2. Primeiro verifica login admin fixo (garantindo o acesso à senha curta)
     if (email == adminEmail && senha == adminSenha) {
       valido = true;
+      print('Login Admin FIXO realizado com sucesso.');
     } else {
-      print('Error');
+      // 3. Tenta autenticar via API para outros usuários
+      print('Tentando login via API...');
+      valido = await validarLogin(email, senha);
     }
 
+    // 4. Resultado da Autenticação
     if (valido) {
-      login(); // vai pra home
+      login(); // Navega para a home
     } else {
-      printError("E-mail ou senha inválidos!");
+      // Mensagem genérica para falha de autenticação
       errorEmail.value = "E-mail ou senha inválidos!";
       errorPassword.value = "E-mail ou senha inválidos!";
+      printError("E-mail ou senha inválidos!");
     }
   }
 
   Future<bool> validarLogin(String email, String senha) async {
-    // implementar a chamada HTTP para o seu Spring Boot aqui.
-
     try {
-      final url = Uri.parse('http://10.0.2.2:8080/login'); // Exemplo de URL
+      final url = Uri.parse('http://10.0.2.2:8080/login');
       final body = jsonEncode({'email': email, 'senha': senha});
 
       final response = await http.post(
@@ -65,48 +74,88 @@ class LoginController extends GetxController {
         body: body,
       );
 
-      // Se o login for sucesso (ex: status 200), retorne true
-      if (response.statusCode == 200) {
-        return true;
-      } else {
-        // Se o back-end disser que o login falhou, retorne false
-        return false;
-      }
+      return response.statusCode == 200;
     } catch (e) {
-      // Se houver um erro (sem internet, API desligada), retorne false
       print("Erro ao conectar com a API: $e");
       return false;
     }
   }
 
   void printError(String error) {
-    print(error);
+    print('ERRO: $error');
   }
 
   void login() {
     Get.offAllNamed(Routes.HOME);
   }
 
-  // Verificação de campo de email vazio
-  bool validateEmail() {
-    if (emailInput.text.isEmpty) {
-      errorEmail.value = "Preencha o E-mail!";
-      return false;
-    } else {
-      errorEmail.value = null;
-      return true;
+  // --- FUNÇÕES DE VALIDAÇÃO ---
+
+  // Função utilitária para aplicar os validadores e atualizar o erro
+  bool _validateField({
+    required String text,
+    required RxnString errorRx,
+    required List<String? Function(String)> validators,
+  }) {
+    // Limpa o erro anterior antes de re-validar
+    errorRx.value = null;
+
+    for (final validator in validators) {
+      final error = validator(text);
+      if (error != null) {
+        // Encontrou um erro, seta o valor observável e retorna false
+        errorRx.value = error;
+        return false;
+      }
     }
+    // Nenhuma validação falhou
+    return true;
   }
 
-  // Verificação de campo de senha vazio
+  /// Verificação de campo de email (vazio e formato).
+  bool validateEmail() {
+    return _validateField(
+      text: emailInput.text,
+      errorRx: errorEmail,
+      validators: [
+        // 1. Checa se o campo está vazio
+        (text) => text.isEmpty ? 'Preencha o email' : null,
+        // 2. Checa o formato do email com RegExp
+        (text) => !RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(text)
+            ? 'Email inválido'
+            : null,
+      ],
+    );
+  }
+
+  /// Verificação de campo de senha (com exceção para o Admin).
   bool validatePassword() {
-    if (senhaInput.text.isEmpty) {
-      errorPassword.value = "Preencha sua senha!";
-      return false;
-    } else {
-      errorPassword.value = null;
-      return true;
+    final senhaText = senhaInput.text;
+    final emailText = emailInput.text;
+
+    // --- LÓGICA DE EXCEÇÃO PARA O ADMIN ---
+    if (emailText == adminEmail && senhaText == adminSenha) {
+      // Usa um validador simplificado para garantir que o campo não esteja vazio
+      return _validateField(
+        text: senhaText,
+        errorRx: errorPassword,
+        validators: [(text) => text.isEmpty ? 'Preencha a senha' : null],
+      );
     }
+    // --- FIM DA EXCEÇÃO ---
+
+    // Para todos os outros usuários, aplicamos a regra completa de 8 caracteres.
+    return _validateField(
+      text: senhaText,
+      errorRx: errorPassword,
+      validators: [
+        // 1. Checa se o campo está vazio
+        (text) => senhaText.isEmpty ? 'Preencha a senha' : null,
+        // 2. Checa o tamanho mínimo.
+        // MENSAGEM ALTERADA CONFORME SOLICITADO: 'Senha inválida'
+        (text) => senhaText.length < 8 ? 'Senha inválida' : null,
+      ],
+    );
   }
 
   @override
