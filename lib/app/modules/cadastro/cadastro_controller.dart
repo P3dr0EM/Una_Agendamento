@@ -138,7 +138,7 @@ class CadastroController extends GetxController {
     // se a validacao passou, ativa o carregando
     isLoading.value = true;
 
-    final url = Uri.parse('http://10.0.2.2:8080/usuario');
+    final url = Uri.parse('http://10.0.2.2:8081/usuario');
 
     // aqui se cria o corpo da requisição (dados em JSON)
     try {
