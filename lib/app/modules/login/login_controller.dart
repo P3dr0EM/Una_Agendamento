@@ -151,9 +151,6 @@ class LoginController extends GetxController {
       validators: [
         // 1. Checa se o campo está vazio
         (text) => senhaText.isEmpty ? 'Preencha a senha' : null,
-        // 2. Checa o tamanho mínimo.
-        // MENSAGEM ALTERADA CONFORME SOLICITADO: 'Senha inválida'
-        (text) => senhaText.length < 8 ? 'Senha inválida' : null,
       ],
     );
   }
