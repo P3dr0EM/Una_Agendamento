@@ -2,15 +2,9 @@
 
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-// Para o código compilar, simule a classe de rotas se não estiver disponível
-// import 'package:una_agendamento/app/routes/app_routes.dart';
+import 'package:una_agendamento/app/routes/app_routes.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-
-// Simulação de Rotas
-class Routes {
-  static const HOME = '/home';
-}
 
 class LoginController extends GetxController {
   TextEditingController emailInput = TextEditingController();
@@ -19,59 +13,52 @@ class LoginController extends GetxController {
   final RxnString errorEmail = RxnString(null);
   final RxnString errorPassword = RxnString(null);
 
-  // Login fixo de admin
   static const adminEmail = "admin@admin.com";
-  static const adminSenha = "admin"; // Menos de 8 caracteres
+  static const adminSenha = "admin";
 
-  // --- FUNÇÕES DE LÓGICA PRINCIPAL ---
-
+  // ------------------ GOOGLE LOGIN ------------------
   Future<void> tryToGoogleLogin() async {
-    print('LOGAR COM GOOGLE!');
+    print("LOGAR COM GOOGLE!");
+    // Aqui futuramente entra a lógica do Firebase Auth
   }
 
-  /// Função principal de login
-  Future<void> logar() async {
-    // 1. Validar campos. Se falhar, as funções de validação já mostram o erro.
-    final emailValido = validateEmail();
-    final senhaValida = validatePassword();
+  // ------------------ LOGIN PRINCIPAL ------------------
 
-    if (!emailValido || !senhaValida) return;
+  Future<void> logar() async {
+    if (!validateEmail() || !validatePassword()) return;
 
     final email = emailInput.text;
     final senha = senhaInput.text;
 
-    bool valido = false;
+    bool isValid = false;
 
-    // 2. Primeiro verifica login admin fixo (garantindo o acesso à senha curta)
+    // Login ADMIN local
     if (email == adminEmail && senha == adminSenha) {
-      valido = true;
-      print('Login Admin FIXO realizado com sucesso.');
+      isValid = true;
     } else {
-      // 3. Tenta autenticar via API para outros usuários
-      print('Tentando login via API...');
-      valido = await validarLogin(email, senha);
+      // Login via API
+      isValid = await validarLogin(email, senha);
     }
 
-    // 4. Resultado da Autenticação
-    if (valido) {
-      login(); // Navega para a home
+    if (isValid) {
+      login();
     } else {
-      // Mensagem genérica para falha de autenticação
+      printError("E-mail ou senha inválidos!");
       errorEmail.value = "E-mail ou senha inválidos!";
       errorPassword.value = "E-mail ou senha inválidos!";
-      printError("E-mail ou senha inválidos!");
     }
   }
+
+  // ------------------ BACK-END ------------------
 
   Future<bool> validarLogin(String email, String senha) async {
     try {
       final url = Uri.parse('http://10.0.2.2:8080/login');
-      final body = jsonEncode({'email': email, 'senha': senha});
 
       final response = await http.post(
         url,
-        headers: {'Content-Type': 'application/json'},
-        body: body,
+        headers: {'Content-Type': 'application/json; charset=UTF-8'},
+        body: jsonEncode({'email': email, 'senha': senha}),
       );
 
       return response.statusCode == 200;
@@ -81,78 +68,66 @@ class LoginController extends GetxController {
     }
   }
 
-  void printError(String error) {
-    print('ERRO: $error');
-  }
+  // ------------------ AUXILIARES ------------------
 
   void login() {
     Get.offAllNamed(Routes.HOME);
   }
 
-  // --- FUNÇÕES DE VALIDAÇÃO ---
-
-  // Função utilitária para aplicar os validadores e atualizar o erro
-  bool _validateField({
-    required String text,
-    required RxnString errorRx,
-    required List<String? Function(String)> validators,
-  }) {
-    // Limpa o erro anterior antes de re-validar
-    errorRx.value = null;
-
-    for (final validator in validators) {
-      final error = validator(text);
-      if (error != null) {
-        // Encontrou um erro, seta o valor observável e retorna false
-        errorRx.value = error;
-        return false;
-      }
-    }
-    // Nenhuma validação falhou
-    return true;
+  void printError(String error) {
+    print('ERRO: $error');
   }
 
-  /// Verificação de campo de email (vazio e formato).
   bool validateEmail() {
     return _validateField(
       text: emailInput.text,
       errorRx: errorEmail,
       validators: [
-        // 1. Checa se o campo está vazio
-        (text) => text.isEmpty ? 'Preencha o email' : null,
-        // 2. Checa o formato do email com RegExp
-        (text) => !RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(text)
-            ? 'Email inválido'
+        (t) => t.isEmpty ? "Preencha o email" : null,
+        (t) => !RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(t)
+            ? "Email inválido"
             : null,
       ],
     );
   }
 
-  /// Verificação de campo de senha (com exceção para o Admin).
   bool validatePassword() {
-    final senhaText = senhaInput.text;
-    final emailText = emailInput.text;
+    final email = emailInput.text;
+    final senha = senhaInput.text;
 
-    // --- LÓGICA DE EXCEÇÃO PARA O ADMIN ---
-    if (emailText == adminEmail && senhaText == adminSenha) {
-      // Usa um validador simplificado para garantir que o campo não esteja vazio
+    // Permite admin com senha curta
+    if (email == adminEmail && senha == adminSenha) {
       return _validateField(
-        text: senhaText,
+        text: senha,
         errorRx: errorPassword,
-        validators: [(text) => text.isEmpty ? 'Preencha a senha' : null],
+        validators: [(t) => t.isEmpty ? "Preencha a senha" : null],
       );
     }
-    // --- FIM DA EXCEÇÃO ---
 
-    // Para todos os outros usuários, aplicamos a regra completa de 8 caracteres.
     return _validateField(
-      text: senhaText,
+      text: senha,
       errorRx: errorPassword,
       validators: [
-        // 1. Checa se o campo está vazio
-        (text) => senhaText.isEmpty ? 'Preencha a senha' : null,
+        (t) => t.isEmpty ? "Preencha a senha" : null,
+        (t) => t.length < 8 ? "A senha deve ter pelo menos 8 caracteres" : null,
       ],
     );
+  }
+
+  bool _validateField({
+    required String text,
+    required RxnString errorRx,
+    required List<String? Function(String)> validators,
+  }) {
+    for (var validator in validators) {
+      final result = validator(text);
+      if (result != null) {
+        errorRx.value = result;
+        return false;
+      }
+    }
+    errorRx.value = null;
+    return true;
   }
 
   @override

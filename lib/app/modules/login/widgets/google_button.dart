@@ -12,10 +12,11 @@ class LogarGoogle extends GetView<LoginController> {
         onPressed: controller.tryToGoogleLogin,
         icon: Image.asset(
           "assets/icons/g_icon_google.png",
-          width:  20.0,
+          width: 20.0,
           height: 20.0,
         ),
-        label: Text('Logar com Google')),
+        label: Text('Logar com Google'),
+      ),
     );
   }
 }
