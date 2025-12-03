@@ -38,7 +38,7 @@ dependencies:
   flutter_localization: ^0.3.3
   intl: 0.20.2
   firebase_auth: ^6.1.0
-  google_sign_in: ^7.2.0
+  google_sign_in: ^5.4.0
   firebase_core: ^4.1.1
   flutter_localizations:
     sdk: flutter

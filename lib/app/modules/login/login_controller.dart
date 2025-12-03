@@ -1,6 +1,8 @@
 // ignore_for_file: avoid_print
 
 import 'package:flutter/widgets.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import "package:google_sign_in/google_sign_in.dart";
 import 'package:get/get.dart';
 import 'package:una_agendamento/app/routes/app_routes.dart';
 import 'dart:convert';
@@ -18,8 +20,52 @@ class LoginController extends GetxController {
 
   // ------------------ GOOGLE LOGIN ------------------
   Future<void> tryToGoogleLogin() async {
-    print("LOGAR COM GOOGLE!");
-    // Aqui futuramente entra a lógica do Firebase Auth
+    print('Google login: iniciando fluxo de autenticação');
+    try {
+      final GoogleSignInAccount? googleUser = await GoogleSignIn(
+        scopes: <String>['email'],
+      ).signIn();
+
+      print('Google login: signIn() retornou -> $googleUser');
+
+      // Usuário cancelou o fluxo
+      if (googleUser == null) {
+        print('Google login: usuário cancelou o fluxo');
+        return;
+      }
+
+      final GoogleSignInAuthentication googleAuth =
+          await googleUser.authentication;
+      print(
+        'Google login: obteve googleAuth (idToken != null?): ${googleAuth.idToken != null}',
+      );
+
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
+      print('Google login: credencial criada, fazendo signInWithCredential...');
+
+      final userCredential = await FirebaseAuth.instance.signInWithCredential(
+        credential,
+      );
+      print(
+        'Google login: signInWithCredential result -> user: ${userCredential.user}',
+      );
+
+      if (userCredential.user != null) {
+        print('Google login: autenticação bem-sucedida, navegando...');
+        login();
+      } else {
+        printError('Falha no login com Google: usuário nulo');
+        Get.snackbar('Erro', 'Falha ao autenticar com Google');
+      }
+    } catch (e, s) {
+      print('Google login: erro durante autenticação: $e');
+      print(s);
+      printError('Erro ao logar com Google: $e');
+      Get.snackbar('Erro', 'Falha ao autenticar com Google');
+    }
   }
 
   // ------------------ LOGIN PRINCIPAL ------------------
