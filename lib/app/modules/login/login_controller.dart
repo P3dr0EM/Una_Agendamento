@@ -12,6 +12,9 @@ class LoginController extends GetxController {
   TextEditingController emailInput = TextEditingController();
   TextEditingController senhaInput = TextEditingController();
 
+  // Estado de carregamento para fluxos de autenticação
+  final RxBool isLoading = false.obs;
+
   final RxnString errorEmail = RxnString(null);
   final RxnString errorPassword = RxnString(null);
 
@@ -21,6 +24,7 @@ class LoginController extends GetxController {
   // ------------------ GOOGLE LOGIN ------------------
   Future<void> tryToGoogleLogin() async {
     print('Google login: iniciando fluxo de autenticação');
+    isLoading.value = true;
     try {
       final GoogleSignInAccount? googleUser = await GoogleSignIn(
         scopes: <String>['email'],
@@ -65,6 +69,8 @@ class LoginController extends GetxController {
       print(s);
       printError('Erro ao logar com Google: $e');
       Get.snackbar('Erro', 'Falha ao autenticar com Google');
+    } finally {
+      isLoading.value = false;
     }
   }
 

@@ -1,5 +1,12 @@
+// ignore_for_file: avoid_print
+
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'dart:convert';
+
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:http/http.dart' as http;
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 // Enum para os status do dia
 enum DayStatus { available, full, closed, past }
@@ -42,6 +49,22 @@ class AgendamentoController extends GetxController {
     return selectedDay.value != null && selectedTime.value != null;
   }
 
+  // Local notifications plugin
+  final FlutterLocalNotificationsPlugin _localNotifications =
+      FlutterLocalNotificationsPlugin();
+
+  Future<void> _initLocalNotifications() async {
+    final android = AndroidInitializationSettings('@mipmap/ic_launcher');
+    final ios = IOSInitializationSettings();
+    final initSettings = InitializationSettings(android: android, iOS: ios);
+    await _localNotifications.initialize(
+      initSettings,
+      onSelectNotification: (String? payload) async {
+        // Handle notification tap if needed (payload contains data)
+      },
+    );
+  }
+
   @override
   void onInit() {
     super.onInit();
@@ -49,6 +72,9 @@ class AgendamentoController extends GetxController {
     String servicoKey = Get.parameters['servico'] ?? 'servico';
     // Converte para "Dentista" (primeira letra maiúscula)
     serviceName.value = servicoKey.capitalizeFirst ?? 'Serviço';
+
+    // Inicializa local notifications
+    _initLocalNotifications();
   }
 
   /// Função chamada pelo TableCalendar ao selecionar um dia
@@ -119,8 +145,156 @@ class AgendamentoController extends GetxController {
   }
 
   /// Função do botão de confirmação
-  void confirmarAgendamento() {
-    Get.back(result: true);// Volta para a Home
+  Future<void> confirmarAgendamento() async {
+    // Validação mínima
+    if (selectedDay.value == null || selectedTime.value == null) {
+      Get.snackbar('Erro', 'Selecione dia e horário');
+      return;
+    }
+
+    // Monta a DateTime de início a partir do `selectedDay` + `selectedTime` (formato 'HH:mm')
+    final parts = selectedTime.value!.split(':');
+    final hour = int.tryParse(parts[0]) ?? 0;
+    final minute = int.tryParse(parts[1]) ?? 0;
+    final start = DateTime(
+      selectedDay.value!.year,
+      selectedDay.value!.month,
+      selectedDay.value!.day,
+      hour,
+      minute,
+    );
+    final end = start.add(const Duration(hours: 1));
+
+    // Tenta criar evento no Google Calendar
+    final created = await _createGoogleCalendarEvent(
+      title: serviceName.value,
+      start: start,
+      end: end,
+    );
+
+    if (created) {
+      // Notificação local de confirmação imediata
+      await _showLocalConfirmationNotification(start);
+      Get.snackbar(
+        'Sucesso',
+        'Agendamento confirmado e evento criado no Google Agenda',
+      );
+      Get.back(result: true); // volta para a tela anterior
+    } else {
+      Get.snackbar('Erro', 'Não foi possível criar o evento no Google Agenda');
+    }
+  }
+
+  // Cria um evento no calendário primário do usuário usando a API REST com
+  // o token obtido via GoogleSignIn. Retorna true se criado com sucesso.
+  Future<bool> _createGoogleCalendarEvent({
+    required String title,
+    required DateTime start,
+    required DateTime end,
+  }) async {
+    try {
+      // Use uma instância compartilhada com o scope de calendar para garantir
+      // que o token tenha permissão de criar eventos.
+      final googleSignIn = GoogleSignIn(
+        scopes: <String>['email', 'https://www.googleapis.com/auth/calendar'],
+      );
+
+      GoogleSignInAccount? account = googleSignIn.currentUser;
+      account ??= await googleSignIn.signInSilently();
+
+      // Se já estiver logado mas sem as permissões necessárias, solicite scopes
+      if (account != null) {
+        try {
+          // requestScopes pede explicitamente as scopes adicionais (se necessário)
+          await googleSignIn.requestScopes([
+            'https://www.googleapis.com/auth/calendar',
+          ]);
+        } catch (_) {
+          // Ignora falha aqui — vamos garantir login interativo abaixo se necessário
+        }
+      }
+
+      // Caso não esteja logado (ou requestScopes não concedeu), solicita login interativo
+      account ??= await googleSignIn.signIn();
+
+      if (account == null) {
+        print('Google Calendar: usuário não autenticado');
+        return false;
+      }
+
+      final auth = await account.authentication;
+      final accessToken = auth.accessToken;
+      if (accessToken == null) {
+        print('Google Calendar: accessToken não disponível');
+        return false;
+      }
+
+      final uri = Uri.parse(
+        'https://www.googleapis.com/calendar/v3/calendars/primary/events',
+      );
+      final body = jsonEncode({
+        'summary': title,
+        'start': {
+          'dateTime': start.toIso8601String(),
+          'timeZone': DateTime.now().timeZoneName,
+        },
+        'end': {
+          'dateTime': end.toIso8601String(),
+          'timeZone': DateTime.now().timeZoneName,
+        },
+      });
+
+      final response = await http.post(
+        uri,
+        headers: {
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer $accessToken',
+        },
+        body: body,
+      );
+
+      // Log detalhado para diagnóstico (status + body)
+      print('Google Calendar: response.statusCode=${response.statusCode}');
+      print('Google Calendar: response.body=${response.body}');
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        print('Google Calendar: evento criado com sucesso');
+        return true;
+      } else {
+        // Possíveis causas comuns:
+        // - Token sem scope calendar (401 / 403)
+        // - Calendar API não habilitada no Google Cloud Console (403)
+        // - OAuth consent / SHA-1 not configured for Android (403)
+        return false;
+      }
+    } catch (e, s) {
+      print('Google Calendar: exceção ao criar evento: $e');
+      print(s);
+      return false;
+    }
+  }
+
+  Future<void> _showLocalConfirmationNotification(DateTime start) async {
+    final androidDetails = AndroidNotificationDetails(
+      'agendamento_channel',
+      'Agendamentos',
+      channelDescription: 'Notificações de agendamentos',
+      importance: Importance.max,
+      priority: Priority.high,
+    );
+    final iosDetails = IOSNotificationDetails();
+    final details = NotificationDetails(
+      android: androidDetails,
+      iOS: iosDetails,
+    );
+
+    final formatted = DateFormat('dd/MM/yyyy HH:mm').format(start);
+    await _localNotifications.show(
+      start.hashCode & 0x7FFFFFFF,
+      'Agendamento confirmado',
+      '$serviceName foi marcado para $formatted',
+      details,
+    );
   }
 
   /// Helper para comparar datas ignorando a hora
