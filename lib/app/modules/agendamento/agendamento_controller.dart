@@ -54,13 +54,26 @@ class AgendamentoController extends GetxController {
       FlutterLocalNotificationsPlugin();
 
   Future<void> _initLocalNotifications() async {
-    final android = AndroidInitializationSettings('@mipmap/ic_launcher');
-    final ios = IOSInitializationSettings();
-    final initSettings = InitializationSettings(android: android, iOS: ios);
+    // Android continua igual
+    const android = AndroidInitializationSettings('@mipmap/ic_launcher');
+    
+    // ATUALIZAÇÃO: iOS agora usa DarwinInitializationSettings
+    const ios = DarwinInitializationSettings(
+      requestAlertPermission: true,
+      requestBadgePermission: true,
+      requestSoundPermission: true,
+    );
+    
+    const initSettings = InitializationSettings(android: android, iOS: ios);
+
     await _localNotifications.initialize(
       initSettings,
-      onSelectNotification: (String? payload) async {
-        // Handle notification tap if needed (payload contains data)
+      // ATUALIZAÇÃO: 'onSelectNotification' mudou para 'onDidReceiveNotificationResponse'
+      onDidReceiveNotificationResponse: (NotificationResponse response) {
+        // O payload agora fica dentro de response.payload
+        if (response.payload != null) {
+          print('Notificação clicada com payload: ${response.payload}');
+        }
       },
     );
   }
@@ -275,20 +288,24 @@ class AgendamentoController extends GetxController {
   }
 
   Future<void> _showLocalConfirmationNotification(DateTime start) async {
-    final androidDetails = AndroidNotificationDetails(
+    const androidDetails = AndroidNotificationDetails(
       'agendamento_channel',
       'Agendamentos',
       channelDescription: 'Notificações de agendamentos',
       importance: Importance.max,
       priority: Priority.high,
     );
-    final iosDetails = IOSNotificationDetails();
-    final details = NotificationDetails(
+
+    // ATUALIZAÇÃO: IOSNotificationDetails virou DarwinNotificationDetails
+    const iosDetails = DarwinNotificationDetails();
+    
+    const details = NotificationDetails(
       android: androidDetails,
       iOS: iosDetails,
     );
 
     final formatted = DateFormat('dd/MM/yyyy HH:mm').format(start);
+    
     await _localNotifications.show(
       start.hashCode & 0x7FFFFFFF,
       'Agendamento confirmado',
