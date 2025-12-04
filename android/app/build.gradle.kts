@@ -1,18 +1,20 @@
 plugins {
     id("com.android.application")
     id("kotlin-android")
-    // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
+    // O Plugin do Flutter deve ser aplicado após o Android e Kotlin.
     id("dev.flutter.flutter-gradle-plugin")
     id("com.google.gms.google-services")
 }
 
-dependencies{
+dependencies {
+    // Firebase
     implementation(platform("com.google.firebase:firebase-bom:34.3.0"))
     implementation("com.google.firebase:firebase-analytics")
+    
+    // Suporte a recursos Java modernos (Desugaring)
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
-}
-
-dependencies {
+    
+    // Multidex
     implementation("androidx.multidex:multidex:2.0.1")
 }
 
@@ -32,10 +34,7 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId = "com.example.una_agendamento"
-        // You can update the following values to match your application needs.
-        // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
@@ -43,32 +42,30 @@ android {
         multiDexEnabled = true
     }
 
-    buildTypes {
-        release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig = signingConfigs.getByName("debug")
-        }
-    }
-
+    // 1. Definimos a assinatura ANTES de usar nos buildTypes
     signingConfigs {
-        create("debug") {
+        getByName("debug") {
             keyAlias = "androiddebugkey"
             keyPassword = "android"
-            storeFile = file("debug.keystore") // Procura o arquivo na pasta app/
+            storeFile = file("debug.keystore") // Certifique-se que o arquivo está na pasta android/app/
             storePassword = "android"
         }
     }
 
+    // 2. Um único bloco buildTypes consolidado
     buildTypes {
         getByName("debug") {
-            // Vincula a configuração que criamos acima
             signingConfig = signingConfigs.getByName("debug")
         }
         getByName("release") {
-            // Configuração de release...
-            // signingConfig = ...
-            minifyEnabled = false
+            // Usando a chave de debug para release TEMPORARIAMENTE para facilitar testes.
+            // Para produção real, você criaria uma entrada "release" no signingConfigs acima.
+            signingConfig = signingConfigs.getByName("debug")
+            
+            // AS DUAS PRECISAM ESTAR ALINHADAS (ambas false para evitar erros de build rápido)
+            isMinifyEnabled = false
+            isShrinkResources = false
+            
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
