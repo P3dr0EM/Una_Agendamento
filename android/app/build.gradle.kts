@@ -50,6 +50,31 @@ android {
             signingConfig = signingConfigs.getByName("debug")
         }
     }
+
+    signingConfigs {
+        create("debug") {
+            keyAlias = "androiddebugkey"
+            keyPassword = "android"
+            storeFile = file("debug.keystore") // Procura o arquivo na pasta app/
+            storePassword = "android"
+        }
+    }
+
+    buildTypes {
+        getByName("debug") {
+            // Vincula a configuração que criamos acima
+            signingConfig = signingConfigs.getByName("debug")
+        }
+        getByName("release") {
+            // Configuração de release...
+            // signingConfig = ...
+            minifyEnabled = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
+        }
+    }
 }
 
 flutter {
