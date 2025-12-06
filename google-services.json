@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "168275129680",
+    "project_id": "login-7d663",
+    "storage_bucket": "login-7d663.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:168275129680:android:4e43d09df95ec07b9ba855",
+        "android_client_info": {
+          "package_name": "com.example.una_agendamento"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "168275129680-fl2m6ev14isli841j027o7cm6somua8h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.una_agendamento",
+            "certificate_hash": "c187ac0bbbb3c0ce52c88717abc8e314e1a8b91f"
+          }
+        },
+        {
+          "client_id": "168275129680-r1g3bkiksibltegqn5v42jovmq15esth.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBslnsl0ymVdq_t7Whkd7O6o4JIXGEDUy4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "168275129680-r1g3bkiksibltegqn5v42jovmq15esth.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "168275129680-1ibd4kabgmtud8tn164vjod2i47q9h17.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.unaAgendamento"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
