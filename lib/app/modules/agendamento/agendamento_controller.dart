@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_print
 
+
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'dart:convert';
@@ -188,13 +189,19 @@ class AgendamentoController extends GetxController {
     if (created) {
       // Notificação local de confirmação imediata
       await _showLocalConfirmationNotification(start);
-      Get.snackbar(
-        'Sucesso',
-        'Agendamento confirmado e evento criado no Google Agenda',
-      );
-      Get.back(result: true); // volta para a tela anterior
-    } else {
-      Get.snackbar('Erro', 'Não foi possível criar o evento no Google Agenda');
+      final diaFormatado = DateFormat('dd/MM/yyyy').format(start);
+      final horaFormatada = DateFormat('HH:mm').format(start);
+
+      Get.defaultDialog(
+        title: 'Agendamento Confirmado',
+        middleText:
+            'Seu agendamento para $serviceName em $diaFormatado às $horaFormatada foi confirmado e adicionado ao seu Google Calendar.',
+        onConfirm: () {
+          Get.back(); // Fecha o diálogo
+          Get.back(); // Volta para a tela anterior
+        },
+        textConfirm: 'OK',
+      );      
     }
   }
 

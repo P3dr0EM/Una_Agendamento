@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "168275129680-bqg7ohb8ejuls5ub1rm6e09hs4h10632.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.una_agendamento",
+            "certificate_hash": "738aa9eb0b005392798347bff01d557023e8f76c"
+          }
+        },
+        {
           "client_id": "168275129680-fl2m6ev14isli841j027o7cm6somua8h.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

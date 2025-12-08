@@ -42,16 +42,6 @@ android {
         multiDexEnabled = true
     }
 
-    // 1. Definimos a assinatura ANTES de usar nos buildTypes
-    signingConfigs {
-        getByName("debug") {
-            keyAlias = "androiddebugkey"
-            keyPassword = "android"
-            storeFile = file("debug.keystore") // Certifique-se que o arquivo está na pasta android/app/
-            storePassword = "android"
-        }
-    }
-
     // 2. Um único bloco buildTypes consolidado
     buildTypes {
         getByName("debug") {
